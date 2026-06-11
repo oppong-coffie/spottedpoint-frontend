@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'https://spottedpoint-backend-production.up.railway.app/api' });
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'https://spottedpoint-backend-production.up.railway.app' });
 
 api.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('spm_user') || '{}');
