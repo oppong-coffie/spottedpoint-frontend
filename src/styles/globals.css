@@ -252,6 +252,10 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
   display: none !important;
 }
 
+.hero-buttons {
+  margin-bottom: 48px;
+}
+
 .hero-section {
   min-height: 100vh;
   background: #fff;
@@ -345,6 +349,10 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
   }
   .hero-content .hero-badge {
     align-self: center !important;
+  }
+  .hero-buttons {
+    margin-bottom: 24px !important;
+    justify-content: center;
   }
   .hero-content .hero-stats {
     justify-content: center;

@@ -57,7 +57,9 @@ function AnimatedRoutes() {
             !parent.closest('script') &&
             !parent.closest('style') &&
             !parent.closest('input') &&
-            !parent.closest('textarea')) {
+            !parent.closest('textarea') &&
+            !parent.closest('.hero-stats') &&
+            !parent.closest('.counting-stat')) {
           
           const words = node.nodeValue.split(/(\s+)/);
           const fragment = document.createDocumentFragment();
@@ -79,7 +81,9 @@ function AnimatedRoutes() {
         if (!['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SVG', 'PATH', 'IMG', 'PICTURE', 'IFRAME', 'VIDEO', 'AUDIO', 'CANVAS', 'CODE', 'PRE'].includes(node.tagName) &&
             !node.classList.contains('hover-word') &&
             !node.closest('button') && 
-            !node.closest('a')) {
+            !node.closest('a') &&
+            !node.closest('.hero-stats') &&
+            !node.closest('.counting-stat')) {
           const children = Array.from(node.childNodes);
           for (const child of children) {
             wrapWordsInNode(child);

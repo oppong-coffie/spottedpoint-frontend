@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link }            from 'react-router-dom';
 import Navbar              from '../components/layout/Navbar';
 import Footer              from '../components/layout/Footer';
@@ -16,6 +16,8 @@ import { BRAND, DIRECTORS } from '../utils/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api/axios';
 import use3DTilt from '../hooks/use3DTilt';
+import ContactForm from '../components/ui/ContactForm';
+import gsap from '../animations/gsapCore';
 
 // ─── ALL MODULE-LEVEL CONSTANTS ───────────────────────────────────────────────
 const HERO_WORDS = ['Connects.', 'Inspires.', 'Converts.', 'Commands.'];
@@ -173,7 +175,7 @@ function Hero() {
         </p>
 
         {/* Buttons */}
-        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
+        <div className="hero-buttons" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
           <MagneticButton
             className="btn-primary hero-button btn-morph"
             onClick={() => document.getElementById('services-row')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -284,6 +286,18 @@ function Hero() {
         }}>
           <Logo size={88} textScale={0} dark />
         </div>
+      </div>
+
+      {/* ── MOBILE CONTACT FORM: Shows on mobile only, in place of the slideshow ── */}
+      <div className="mobile-only" style={{
+        width: '100%',
+        padding: '0 20px 80px',
+        boxSizing: 'border-box',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: '#fff',
+      }}>
+        <ContactForm />
       </div>
     </section>
   );
@@ -762,34 +776,37 @@ function CTASection() {
 }
 
 // ─── CountingStat Component for Hero Stats ──────────────────────────────────
-function CountingStat({ target, suffix = '', label, duration = 3500 }) {
-  const [count, setCount] = useState(0);
+function CountingStat({ target, suffix = '', label }) {
+  const countRef = useRef(null);
 
   useEffect(() => {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const ease = progress * (2 - progress); // easeOutQuad
-      setCount(Math.floor(ease * target));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
+    if (!countRef.current) return;
+    const obj = { val: 0 };
+    const tween = gsap.to(obj, {
+      val: target,
+      duration: 1.8,
+      ease: 'power2.out',
+      onUpdate: () => {
+        if (countRef.current) {
+          countRef.current.textContent = Math.floor(obj.val) + suffix;
+        }
       }
+    });
+    return () => {
+      tween.kill();
     };
-    window.requestAnimationFrame(step);
-  }, [target, duration]);
-
-  const displayVal = target >= 1000 && count >= 1000 
-    ? `${(count / 1000).toFixed(0)}K` 
-    : count;
+  }, [target, suffix]);
 
   return (
-    <div>
-      <div style={{
-        fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-        fontSize: '1.85rem', color: BRAND.blue, lineHeight: 1,
-      }}>
-        {displayVal}{suffix}
+    <div className="counting-stat">
+      <div 
+        ref={countRef}
+        style={{
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
+          fontSize: '1.85rem', color: BRAND.blue, lineHeight: 1,
+        }}
+      >
+        0{suffix}
       </div>
       <div style={{
         fontFamily: "'Poppins',sans-serif", fontSize: '.76rem',
