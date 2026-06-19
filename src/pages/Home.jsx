@@ -139,7 +139,7 @@ function Hero() {
             fontSize: '.68rem', letterSpacing: '.16em',
             color: BRAND.blue, textTransform: 'uppercase',
           }}>
-            Full Stack Creative Agency · Accra, Ghana
+            Full Stack Marketing Agency · Accra, Ghana
           </span>
         </div>
 
