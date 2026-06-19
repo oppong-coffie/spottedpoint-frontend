@@ -358,6 +358,13 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
     justify-content: center;
     width: 100%;
   }
+  .hero-slideshow {
+    flex: 0 0 100%;
+    width: 100%;
+    min-height: 350px;
+    height: 350px;
+    clip-path: none !important;
+  }
   
   /* Grids on mobile */
   .gallery-masonry {

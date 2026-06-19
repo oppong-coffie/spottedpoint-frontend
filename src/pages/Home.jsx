@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Link }            from 'react-router-dom';
+import { Link, UNSAFE_decodeViaTurboStream }            from 'react-router-dom';
 import Navbar              from '../components/layout/Navbar';
 import Footer              from '../components/layout/Footer';
 import Logo                from '../components/ui/Logo';
@@ -174,26 +174,8 @@ function Hero() {
           stunning design, and impactful digital experiences.
         </p>
 
-        {/* Buttons */}
-        <div className="hero-buttons" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-          <MagneticButton
-            className="btn-primary hero-button btn-morph"
-            onClick={() => document.getElementById('services-row')?.scrollIntoView({ behavior: 'smooth' })}>
-            Our Services
-          </MagneticButton>
-          <Link to="/portfolio" className="btn hero-button btn-morph"
-            style={{
-              background: 'transparent', color: BRAND.blue,
-              border: `1.5px solid ${BRAND.blue}2e`,
-              padding: '13px 28px', borderRadius: 50,
-              fontFamily: "'Montserrat',sans-serif", fontWeight: 700,
-              fontSize: '.88rem', textDecoration: 'none', transition: 'all .3s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = BRAND.blue; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = BRAND.blue; }}>
-            View Portfolio
-          </Link>
-        </div>
+
+
 
         {/* Stats */}
         <div className="hero-stats" style={{ display: 'flex', gap: 40, flexWrap: 'wrap' }}>
@@ -204,7 +186,7 @@ function Hero() {
       </div>
 
       {/* ── RIGHT: Image slideshow — diagonal cut + orange accent ── */}
-      <div className="hero-image hero-slideshow hide-m">
+      <div className="hero-image hero-slideshow">
 
         {/* Looping slides */}
         {HERO_SLIDES.map((slide, i) => (
@@ -286,18 +268,6 @@ function Hero() {
         }}>
           <Logo size={88} textScale={0} dark />
         </div>
-      </div>
-
-      {/* ── MOBILE CONTACT FORM: Shows on mobile only, in place of the slideshow ── */}
-      <div className="mobile-only" style={{
-        width: '100%',
-        padding: '0 20px 80px',
-        boxSizing: 'border-box',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: '#fff',
-      }}>
-        <ContactForm />
       </div>
     </section>
   );
@@ -823,6 +793,24 @@ export default function Home() {
   useSmoothScroll();
   useScrollAnimations();
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Check if popup was already dismissed in this session
+    if (sessionStorage.getItem('contactPopupDismissed')) return;
+
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 60000); // 1 minute (60,000 ms)
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    sessionStorage.setItem('contactPopupDismissed', 'true');
+  };
+
   return (
     <>
       <HeroAnimation />
@@ -840,6 +828,80 @@ export default function Home() {
       <ClientsStrip />
       <CTASection />
       <Footer />
+
+      {/* ── Contact Popup Modal (1 minute delay) ── */}
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 99999,
+              background: 'rgba(6, 13, 31, 0.7)',
+              backdropFilter: 'blur(10px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 20,
+            }}
+            onClick={handleClosePopup}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              style={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: 500,
+                borderRadius: 24,
+                overflow: 'hidden',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={handleClosePopup}
+                style={{
+                  position: 'absolute',
+                  top: 20,
+                  right: 20,
+                  zIndex: 10,
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: 36,
+                  height: 36,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: BRAND.blue,
+                  fontSize: '1.2rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
+              >
+                ✕
+              </button>
+
+              <ContactForm 
+                title="Get in Touch" 
+                subtitle="Have a project in mind? Let's discuss how we can help your brand grow."
+                style={{
+                  border: 'none',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
+                }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
