@@ -5,6 +5,7 @@ import Footer from '../components/layout/Footer';
 import { useSmoothScroll, useScrollAnimations } from '../hooks/useGSAP';
 import { BRAND } from '../utils/constants';
 import api from '../api/axios';
+import HeroCarousel from '../components/ui/HeroCarousel';
 
 const FALLBACK = [
   { _id: 1, slug: '#', title: '5 Ways to Make Your Brand Unforgettable', excerpt: 'In a crowded market, visibility is everything. Here are five proven strategies to make your brand the one people remember.', tag: 'Branding', readTime: '5 min read', createdAt: '2025-05-20' },
@@ -38,7 +39,12 @@ export default function BlogPage() {
         background: `linear-gradient(135deg, ${BRAND.blueDark}, ${BRAND.blue})`,
         textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: .05, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
+        <HeroCarousel images={[
+          'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=85',
+          'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1400&q=85',
+          'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1400&q=85'
+        ]} />
+        <div style={{ position: 'absolute', inset: 0, opacity: .01, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
         <div style={{ position: 'relative', zIndex: 1 }}>
           <p style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.72rem', letterSpacing: '.22em', color: BRAND.orange, textTransform: 'uppercase', marginBottom: 10 }}>Insights</p>
           <h1 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(2.2rem,5vw,3.8rem)', color: '#fff', marginBottom: 16 }}>

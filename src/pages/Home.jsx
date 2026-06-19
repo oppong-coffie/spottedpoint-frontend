@@ -15,6 +15,7 @@ import { useSmoothScroll } from '../hooks/useGSAP';
 import { BRAND, DIRECTORS } from '../utils/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api/axios';
+import use3DTilt from '../hooks/use3DTilt';
 
 // ─── ALL MODULE-LEVEL CONSTANTS ───────────────────────────────────────────────
 const HERO_WORDS = ['Connects.', 'Inspires.', 'Converts.', 'Commands.'];
@@ -117,17 +118,10 @@ function Hero() {
   }, []);
 
   return (
-    <section style={{
-      minHeight: '100vh', background: '#fff',
-      display: 'flex', position: 'relative', overflow: 'hidden',
-    }}>
+    <section className="hero-section">
 
       {/* ── LEFT: Text content ─────────────────────────────────── */}
-      <div style={{
-        flex: '0 0 50%', display: 'flex', flexDirection: 'column',
-        justifyContent: 'center', padding: '130px 4% 80px 5%',
-        position: 'relative', zIndex: 2,
-      }}>
+      <div className="hero-content">
 
         {/* Agency badge */}
         <div className="hero-badge" style={{
@@ -181,11 +175,11 @@ function Hero() {
         {/* Buttons */}
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
           <MagneticButton
-            className="btn-primary hero-button"
+            className="btn-primary hero-button btn-morph"
             onClick={() => document.getElementById('services-row')?.scrollIntoView({ behavior: 'smooth' })}>
             Our Services
           </MagneticButton>
-          <Link to="/portfolio" className="btn hero-button"
+          <Link to="/portfolio" className="btn hero-button btn-morph"
             style={{
               background: 'transparent', color: BRAND.blue,
               border: `1.5px solid ${BRAND.blue}2e`,
@@ -201,33 +195,14 @@ function Hero() {
 
         {/* Stats */}
         <div className="hero-stats" style={{ display: 'flex', gap: 40, flexWrap: 'wrap' }}>
-          {[
-            { val: '1K+', label: 'Projects' },
-            { val: '500+', label: 'Clients' },
-            { val: '8+',   label: 'Years' },
-          ].map(({ val, label }) => (
-            <div key={label}>
-              <div style={{
-                fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-                fontSize: '1.85rem', color: BRAND.blue, lineHeight: 1,
-              }}>{val}</div>
-              <div style={{
-                fontFamily: "'Poppins',sans-serif", fontSize: '.76rem',
-                color: '#aaa', marginTop: 4,
-              }}>{label}</div>
-            </div>
-          ))}
+          <CountingStat target={1000} suffix="+" label="Projects" />
+          <CountingStat target={500} suffix="+" label="Clients" />
+          <CountingStat target={8} suffix="+" label="Years" />
         </div>
       </div>
 
       {/* ── RIGHT: Image slideshow — diagonal cut + orange accent ── */}
-      {/* clipPath creates the diagonal left edge matching the reference */}
-      <div className="hero-image hide-m" style={{
-        flex: '0 0 50%', position: 'relative',
-        minHeight: '100vh', overflow: 'hidden',
-        // Diagonal left edge — matching the reference design
-        clipPath: 'polygon(7% 0%, 100% 0%, 100% 100%, 0% 100%)',
-      }}>
+      <div className="hero-image hero-slideshow hide-m">
 
         {/* Looping slides */}
         {HERO_SLIDES.map((slide, i) => (
@@ -314,7 +289,47 @@ function Hero() {
   );
 }
 
-// ─── 4-SERVICE ICONS ROW ──────────────────────────────────────────────────────
+// ─── 4-SERVICE CARD & ROW ─────────────────────────────────────────────────────
+function ServiceCard({ icon, label, desc }) {
+  const tiltRef = use3DTilt();
+  return (
+    <div
+      ref={tiltRef}
+      className="service-card morph-card"
+      style={{
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'flex-start', gap: 12,
+        padding: '24px 20px', borderRadius: 14,
+        border: `1px solid ${BRAND.blue}09`,
+        background: '#fff', transition: 'all .3s', cursor: 'none',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = `${BRAND.orange}38`;
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = `${BRAND.blue}09`;
+      }}>
+      <div style={{
+        width: 50, height: 50, borderRadius: 12,
+        background: `${BRAND.blue}08`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: BRAND.blue, flexShrink: 0,
+      }}>
+        {icon}
+      </div>
+      <div>
+        <h3 style={{
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+          color: BRAND.blue, marginBottom: 6, fontSize: '.92rem',
+        }}>{label}</h3>
+        <p style={{
+          color: '#888', fontSize: '.82rem', lineHeight: 1.75,
+        }}>{desc}</p>
+      </div>
+    </div>
+  );
+}
+
 function ServiceIconsRow() {
   return (
     <section id="services-row" style={{
@@ -323,49 +338,9 @@ function ServiceIconsRow() {
       borderBottom: `1px solid ${BRAND.blue}08`,
     }}>
       <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 24,
-        }}>
+        <div className="grid-4" style={{ gap: 24 }}>
           {HOME_SERVICES.map(({ icon, label, desc }) => (
-            <div key={label}
-              className="service-card"
-              style={{
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'flex-start', gap: 12,
-                padding: '24px 20px', borderRadius: 14,
-                border: `1px solid ${BRAND.blue}09`,
-                background: '#fff', transition: 'all .3s', cursor: 'none',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.boxShadow = `0 12px 40px rgba(40,59,144,.1)`;
-                e.currentTarget.style.borderColor = `${BRAND.orange}38`;
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = `${BRAND.blue}09`;
-                e.currentTarget.style.transform = 'none';
-              }}>
-              <div style={{
-                width: 50, height: 50, borderRadius: 12,
-                background: `${BRAND.blue}08`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: BRAND.blue, flexShrink: 0,
-              }}>
-                {icon}
-              </div>
-              <div>
-                <h3 style={{
-                  fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
-                  color: BRAND.blue, marginBottom: 6, fontSize: '.92rem',
-                }}>{label}</h3>
-                <p style={{
-                  color: '#888', fontSize: '.82rem', lineHeight: 1.75,
-                }}>{desc}</p>
-              </div>
-            </div>
+            <ServiceCard key={label} icon={icon} label={label} desc={desc} />
           ))}
         </div>
       </div>
@@ -373,7 +348,67 @@ function ServiceIconsRow() {
   );
 }
 
-// ─── FEATURED WORKS ───────────────────────────────────────────────────────────
+// ─── FEATURED WORK CARD & SECTION ─────────────────────────────────────────────
+function FeaturedWorkCard({ p }) {
+  const tiltRef = use3DTilt();
+  return (
+    <div
+      ref={tiltRef}
+      className="feature-card work-img morph-card"
+      data-cursor-label="View"
+      style={{
+        borderRadius: 14, overflow: 'hidden',
+        position: 'relative', height: 240, cursor: 'none',
+        background: p.image
+          ? `url(${p.image}) center/cover`
+          : `linear-gradient(135deg, #1a2760, ${BRAND.blue})`,
+        transition: 'transform .3s, box-shadow .3s',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.querySelector('.w-ov').style.opacity = '1';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.querySelector('.w-ov').style.opacity = '0';
+      }}>
+      {/* Dark gradient overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.15) 60%, transparent 100%)',
+      }} />
+      {/* Text */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        padding: '14px 18px', zIndex: 1,
+      }}>
+        <span style={{
+          fontFamily: "'Montserrat',sans-serif", fontSize: '.65rem',
+          fontWeight: 700, color: BRAND.orange,
+          textTransform: 'uppercase', letterSpacing: '.1em',
+        }}>{p.category}</span>
+        <h3 style={{
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+          color: '#fff', fontSize: '.95rem', marginTop: 3,
+        }}>{p.title}</h3>
+      </div>
+      {/* Hover overlay */}
+      <div className="w-ov" style={{
+        position: 'absolute', inset: 0, zIndex: 2,
+        background: `${BRAND.orange}e0`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        opacity: 0, transition: 'opacity .3s',
+      }}>
+        <Link to="/portfolio" style={{
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+          color: '#fff', textDecoration: 'none', fontSize: '.9rem',
+          display: 'flex', alignItems: 'center', gap: 8,
+        }}>
+          View Project →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function FeaturedWorks() {
   const [projects, setProjects] = useState([]);
 
@@ -412,69 +447,9 @@ function FeaturedWorks() {
           </Link>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 20,
-        }}>
+        <div className="grid-3" style={{ gap: 20 }}>
           {display.map((p) => (
-            <div key={p._id}
-              className="feature-card work-img"
-              data-cursor-label="View"
-              style={{
-                borderRadius: 14, overflow: 'hidden',
-                position: 'relative', height: 240, cursor: 'none',
-                background: p.image
-                  ? `url(${p.image}) center/cover`
-                  : `linear-gradient(135deg, #1a2760, ${BRAND.blue})`,
-                transition: 'transform .3s, box-shadow .3s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.03)';
-                e.currentTarget.style.boxShadow = `0 16px 48px rgba(40,59,144,.25)`;
-                e.currentTarget.querySelector('.w-ov').style.opacity = '1';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.querySelector('.w-ov').style.opacity = '0';
-              }}>
-              {/* Dark gradient overlay */}
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.15) 60%, transparent 100%)',
-              }} />
-              {/* Text */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0,
-                padding: '14px 18px', zIndex: 1,
-              }}>
-                <span style={{
-                  fontFamily: "'Montserrat',sans-serif", fontSize: '.65rem',
-                  fontWeight: 700, color: BRAND.orange,
-                  textTransform: 'uppercase', letterSpacing: '.1em',
-                }}>{p.category}</span>
-                <h3 style={{
-                  fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
-                  color: '#fff', fontSize: '.95rem', marginTop: 3,
-                }}>{p.title}</h3>
-              </div>
-              {/* Hover overlay */}
-              <div className="w-ov" style={{
-                position: 'absolute', inset: 0, zIndex: 2,
-                background: `${BRAND.orange}e0`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                opacity: 0, transition: 'opacity .3s',
-              }}>
-                <Link to="/portfolio" style={{
-                  fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
-                  color: '#fff', textDecoration: 'none', fontSize: '.9rem',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                }}>
-                  View Project →
-                </Link>
-              </div>
-            </div>
+            <FeaturedWorkCard key={p._id} p={p} />
           ))}
         </div>
       </div>
@@ -515,7 +490,7 @@ function AboutPreview() {
               Spotted Point Media is your one-stop partner for everything that makes
               your business visible and irresistible.
             </p>
-            <Link to="/about" className="btn btn-primary press">
+            <Link to="/about" className="btn btn-primary press btn-morph">
               Learn About Us →
             </Link>
           </div>
@@ -552,7 +527,116 @@ function AboutPreview() {
 }
 
 // ─── DIRECTORS ────────────────────────────────────────────────────────────────
-// Increased photo area height, removed instruction banner
+function DirectorCard({ name, role, initials, color, skills, photo }) {
+  const tiltRef = use3DTilt();
+  return (
+    <div
+      ref={tiltRef}
+      className="reveal-card morph-card"
+      style={{
+        borderRadius: 22, overflow: 'hidden',
+        background: '#fff',
+        border: `1px solid ${BRAND.blue}0e`,
+        boxShadow: '0 6px 32px rgba(40,59,144,.09)',
+        transition: 'border-color .3s, transform .3s, box-shadow .3s',
+      }}>
+
+      {/* ── Photo area — taller than before ── */}
+      <div style={{
+        height: 320,
+        background: `linear-gradient(155deg, ${color}, ${color}88)`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        {/* Dot grid background */}
+        <div style={{ position: 'absolute', inset: 0, opacity: .08 }}>
+          {Array.from({ length: 80 }).map((_, i) => (
+            <div key={i} style={{
+              position: 'absolute', width: 3, height: 3,
+              borderRadius: '50%', background: '#fff',
+              left: (i % 10) * 48 + 8,
+              top: Math.floor(i / 10) * 38 + 8,
+            }} />
+          ))}
+        </div>
+
+        {/* Photo or placeholder */}
+        {photo ? (
+          <img src={photo} alt={name} style={{
+            width: 150, height: 150, borderRadius: '50%',
+            objectFit: 'cover',
+            objectPosition: 'top',
+            border: '4px solid rgba(255,255,255,.35)',
+            position: 'relative', zIndex: 1,
+            boxShadow: '0 8px 32px rgba(0,0,0,.2)',
+          }} />
+        ) : (
+          // Placeholder circle — awaiting photo
+          <div style={{
+            width: 150, height: 150, borderRadius: '50%',
+            background: 'rgba(255,255,255,.15)',
+            border: '3px solid rgba(255,255,255,.35)',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            position: 'relative', zIndex: 1, gap: 6,
+            backdropFilter: 'blur(4px)',
+          }}>
+            <span style={{
+              fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
+              fontSize: '2.4rem', color: 'rgba(255,255,255,.9)',
+              letterSpacing: '.02em',
+            }}>{initials}</span>
+          </div>
+        )}
+
+        {/* Scanning line effect */}
+        <div style={{
+          position: 'absolute', left: 0, right: 0, height: 1,
+          background: 'linear-gradient(90deg,transparent,rgba(248,149,33,.6),transparent)',
+          animation: 'scan 4s linear infinite', opacity: .5,
+        }} />
+
+        {/* Name overlay at bottom of photo area */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          padding: '24px 22px 18px',
+          background: 'linear-gradient(to top, rgba(0,0,0,.5), transparent)',
+          zIndex: 2,
+        }}>
+          <h3 style={{
+            fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
+            color: '#fff', fontSize: '1.12rem', marginBottom: 2,
+          }}>{name}</h3>
+          <p style={{
+            color: BRAND.orange, fontSize: '.78rem',
+            fontFamily: "'Montserrat',sans-serif", fontWeight: 700,
+          }}>{role}</p>
+        </div>
+      </div>
+
+      {/* ── Skills section ── */}
+      <div style={{
+        padding: '18px 22px 22px',
+        borderTop: `3px solid ${BRAND.orange}`,
+      }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+          {skills.map(s => (
+            <span key={s} style={{
+              fontSize: '.7rem',
+              background: `${BRAND.blue}08`,
+              border: `1px solid ${BRAND.blue}14`,
+              color: '#555', padding: '4px 11px',
+              borderRadius: 50,
+              fontFamily: "'Montserrat',sans-serif", fontWeight: 600,
+            }}>{s}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── DIRECRORS STRIP ────────────────────────────────────────────────────────────
 function DirectorsStrip() {
   return (
     <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
@@ -565,124 +649,11 @@ function DirectorsStrip() {
           }}>The Directors</h2>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 28,
-        }}>
-          {DIRECTORS.map(({ name, role, initials, color, skills, photo }) => (
-            <div key={name} className="reveal-card"
-              style={{
-                borderRadius: 22, overflow: 'hidden',
-                background: '#fff',
-                border: `1px solid ${BRAND.blue}0e`,
-                boxShadow: '0 6px 32px rgba(40,59,144,.09)',
-                transition: 'transform .3s, box-shadow .3s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.boxShadow = `0 20px 56px rgba(40,59,144,.16)`;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = '0 6px 32px rgba(40,59,144,.09)';
-              }}>
-
-              {/* ── Photo area — taller than before ── */}
-              <div style={{
-                height: 320,              // increased from 220
-                background: `linear-gradient(155deg, ${color}, ${color}88)`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                position: 'relative', overflow: 'hidden',
-              }}>
-                {/* Dot grid background */}
-                <div style={{ position: 'absolute', inset: 0, opacity: .08 }}>
-                  {Array.from({ length: 80 }).map((_, i) => (
-                    <div key={i} style={{
-                      position: 'absolute', width: 3, height: 3,
-                      borderRadius: '50%', background: '#fff',
-                      left: (i % 10) * 48 + 8,
-                      top: Math.floor(i / 10) * 38 + 8,
-                    }} />
-                  ))}
-                </div>
-
-                {/* Photo or placeholder */}
-                {photo ? (
-                  <img src={photo} alt={name} style={{
-                    width: 150, height: 150, borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '4px solid rgba(255,255,255,.35)',
-                    position: 'relative', zIndex: 1,
-                    boxShadow: '0 8px 32px rgba(0,0,0,.2)',
-                  }} />
-                ) : (
-                  // Placeholder circle — awaiting photo
-                  <div style={{
-                    width: 150, height: 150, borderRadius: '50%',
-                    background: 'rgba(255,255,255,.15)',
-                    border: '3px solid rgba(255,255,255,.35)',
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    position: 'relative', zIndex: 1, gap: 6,
-                    backdropFilter: 'blur(4px)',
-                  }}>
-                    <span style={{
-                      fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-                      fontSize: '2.4rem', color: 'rgba(255,255,255,.9)',
-                      letterSpacing: '.02em',
-                    }}>{initials}</span>
-                  </div>
-                )}
-
-                {/* Scanning line effect */}
-                <div style={{
-                  position: 'absolute', left: 0, right: 0, height: 1,
-                  background: 'linear-gradient(90deg,transparent,rgba(248,149,33,.6),transparent)',
-                  animation: 'scan 4s linear infinite', opacity: .5,
-                }} />
-
-                {/* Name overlay at bottom of photo area */}
-                <div style={{
-                  position: 'absolute', bottom: 0, left: 0, right: 0,
-                  padding: '24px 22px 18px',
-                  background: 'linear-gradient(to top, rgba(0,0,0,.5), transparent)',
-                  zIndex: 2,
-                }}>
-                  <h3 style={{
-                    fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-                    color: '#fff', fontSize: '1.12rem', marginBottom: 2,
-                  }}>{name}</h3>
-                  <p style={{
-                    color: BRAND.orange, fontSize: '.78rem',
-                    fontFamily: "'Montserrat',sans-serif", fontWeight: 700,
-                  }}>{role}</p>
-                </div>
-              </div>
-
-              {/* ── Skills section ── */}
-              <div style={{
-                padding: '18px 22px 22px',
-                borderTop: `3px solid ${BRAND.orange}`,
-              }}>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-                  {skills.map(s => (
-                    <span key={s} style={{
-                      fontSize: '.7rem',
-                      background: `${BRAND.blue}08`,
-                      border: `1px solid ${BRAND.blue}14`,
-                      color: '#555', padding: '4px 11px',
-                      borderRadius: 50,
-                      fontFamily: "'Montserrat',sans-serif", fontWeight: 600,
-                    }}>{s}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div className="grid-3" style={{ gap: 28 }}>
+          {DIRECTORS.map((director) => (
+            <DirectorCard key={director.name} {...director} />
           ))}
         </div>
-
-        {/* NO instruction banner — removed as requested */}
       </div>
     </section>
   );
@@ -787,6 +758,46 @@ function CTASection() {
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── CountingStat Component for Hero Stats ──────────────────────────────────
+function CountingStat({ target, suffix = '', label, duration = 3500 }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const ease = progress * (2 - progress); // easeOutQuad
+      setCount(Math.floor(ease * target));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [target, duration]);
+
+  const displayVal = target >= 1000 && count >= 1000 
+    ? `${(count / 1000).toFixed(0)}K` 
+    : count;
+
+  return (
+    <div>
+      <div style={{
+        fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
+        fontSize: '1.85rem', color: BRAND.blue, lineHeight: 1,
+      }}>
+        {displayVal}{suffix}
+      </div>
+      <div style={{
+        fontFamily: "'Poppins',sans-serif", fontSize: '.76rem',
+        color: '#aaa', marginTop: 4,
+      }}>
+        {label}
+      </div>
+    </div>
   );
 }
 

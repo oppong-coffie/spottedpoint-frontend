@@ -1,194 +1,313 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { useSmoothScroll, useScrollAnimations } from '../hooks/useGSAP';
-import Logo from '../components/ui/Logo';
 import { BRAND } from '../utils/constants';
+import api from '../api/axios';
+import toast from 'react-hot-toast';
+import use3DTilt from '../hooks/use3DTilt';
+import HeroCarousel from '../components/ui/HeroCarousel';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const TEAM = [
-  { name: 'Akosua Mensah',  role: 'Creative Director',   initials: 'AM', color: BRAND.blue },
-  { name: 'Kofi Asante',    role: 'Head of Digital',      initials: 'KA', color: '#1a3a7a' },
-  { name: 'Esi Owusu',      role: 'Lead Developer',       initials: 'EO', color: BRAND.blueLight },
-  { name: 'Kwame Ofori',    role: 'Brand Strategist',     initials: 'KO', color: '#0f2d6e' },
+const ACADEMY_SOCIALS = [
+  { name: 'Facebook Page', url: 'https://facebook.com/spottedpointmedia', brandColor: '#1877F2', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+  { name: 'WhatsApp Channel', url: 'https://wa.me/233242760809', brandColor: '#25D366', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> },
+  { name: 'TikTok', url: 'https://tiktok.com/@spottedpointmedia', brandColor: '#000000', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg> },
+  { name: 'Instagram', url: 'https://instagram.com/spottedpointmedia', brandColor: '#E1306C', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> },
+  { name: 'X (Twitter)', url: 'https://x.com/spottedpointmed', brandColor: '#0f1419', svg: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg> }
 ];
 
-const VALUES = [
-  { icon: '🚀', title: 'Relentless Innovation',  desc: 'We never stop exploring better ways to serve you.' },
-  { icon: '🎯', title: 'Strategic Simplicity',   desc: 'We make the complex clear and actionable.' },
-  { icon: '📚', title: 'Continuous Learning',    desc: 'We stay ahead so you stay ahead.' },
-  { icon: '🌍', title: 'Community Impact',       desc: 'We grow by helping your community grow.' },
-  { icon: '✨', title: 'Bold Creativity',        desc: 'We craft work that stops scrolls and starts conversations.' },
-  { icon: '🤝', title: 'Proactive Support',      desc: 'We anticipate your needs before you ask.' },
-];
-
-export default function AboutPage() {
+export default function ContactPage() {
   useSmoothScroll();
   useScrollAnimations();
-  const heroRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.about-hero-text > *',
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, stagger: .15, duration: .8, ease: 'power3.out', delay: .2 }
-      );
-    }, heroRef);
-    return () => ctx.revert();
-  }, []);
+  const infoRef = use3DTilt();
+  const formRef = use3DTilt();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: 'General Inquiry',
+    message: ''
+  });
+
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
+
+    setSubmitting(true);
+    const toastId = toast.loading('Sending your message...');
+
+    try {
+      await api.post('/contact', formData);
+      toast.success('Thank you! Your message has been sent successfully.', { id: toastId });
+      setFormData({
+        name: '',
+        email: '',
+        service: 'General Inquiry',
+        message: ''
+      });
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      toast.error('Failed to send message. Please check your network and try again.', { id: toastId });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
       <Navbar />
 
       {/* Hero */}
-      <section ref={heroRef} style={{
-        minHeight: '60vh', display: 'flex', alignItems: 'center',
+      <section style={{
+        paddingTop: 130, paddingBottom: 80,
         background: `linear-gradient(135deg, ${BRAND.blueDark}, ${BRAND.blue})`,
-        position: 'relative', overflow: 'hidden',
+        textAlign: 'center', position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: .05, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
+        <HeroCarousel images={[
+          'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1400&q=85',
+          'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=85',
+          'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1400&q=85'
+        ]} />
+        <div style={{ position: 'absolute', inset: 0, opacity: .01, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
         <div style={{ position: 'absolute', right: -100, bottom: -100, width: 500, height: 500, borderRadius: '50%', background: 'rgba(248,149,33,.07)' }} />
-        <div className="container" style={{ paddingTop: 130, paddingBottom: 80, position: 'relative', zIndex: 1 }}>
-          <div className="about-hero-text">
-            <p style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.72rem', letterSpacing: '.22em', color: BRAND.orange, textTransform: 'uppercase', marginBottom: 12 }}>About Us</p>
-            <h1 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(2.4rem,5vw,4rem)', color: '#fff', lineHeight: 1.1, maxWidth: 700, marginBottom: 20 }}>
-              We Make the <span style={{ color: BRAND.orange }}>Invisible Visible.</span>
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 560, lineHeight: 1.9, fontSize: '1rem' }}>
-              A full-stack marketing agency born from the belief that technology and creativity should work together — not separately.
-            </p>
-          </div>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.72rem', letterSpacing: '.22em', color: BRAND.orange, textTransform: 'uppercase', marginBottom: 12 }}>Connect</p>
+          <h1 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(2.4rem,5vw,4rem)', color: '#fff', lineHeight: 1.1, marginBottom: 20 }}>
+            Let's Start a <span style={{ color: BRAND.orange }}>Conversation.</span>
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 560, margin: '0 auto', lineHeight: 1.9, fontSize: '1rem' }}>
+            We're here to make your brand visible, irresistible, and unstoppable. Tell us about your goals or enquiry.
+          </p>
         </div>
       </section>
 
-      {/* Our Story */}
+      {/* Contact Content Grid */}
       <section className="section" style={{ background: '#fff' }}>
         <div className="container">
-          <div style={{ display: 'flex', gap: 64, alignItems: 'center', flexWrap: 'wrap' }}>
-            <div className="gs-left" style={{ flex: '1 1 420px' }}>
-              <div style={{ borderRadius: 24, height: 420, background: `linear-gradient(135deg, ${BRAND.blue}, ${BRAND.blueLight})`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', inset: 0, opacity: .07 }}>
-                  {Array.from({ length: 180 }).map((_, i) => (
-                    <div key={i} style={{ position: 'absolute', width: 4, height: 4, borderRadius: '50%', background: '#fff', left: (i % 15) * 32 + 8, top: Math.floor(i / 15) * 32 + 8 }} />
+          <div style={{ display: 'flex', gap: 48, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            
+            {/* Left Column: Details & Academy handles */}
+            <div className="gs-left" style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: 28 }}>
+              
+              {/* Contact Info Card */}
+              <div 
+                ref={infoRef}
+                className="morph-card"
+                style={{ 
+                  background: BRAND.offWhite, 
+                  borderRadius: 24, 
+                  padding: '40px 36px', 
+                  border: `1px solid ${BRAND.blue}10`,
+                  boxShadow: '0 8px 30px rgba(40,59,144,0.04)'
+                }}
+              >
+                <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, color: BRAND.blue, fontSize: '1.4rem', marginBottom: 24 }}>Spotted Point Media</h3>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {[
+                    { icon: '📍', title: 'Location', val: 'Teiman-Abokobi, Accra, Ghana' },
+                    { icon: '📞', title: 'Phone', val: '+233 242 760 809' },
+                    { icon: '✉️', title: 'Email', val: 'spottedpointmedia@gmail.com' }
+                  ].map(({ icon, title, val }) => (
+                    <div key={title} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                      <div style={{ fontSize: '1.6rem', marginTop: 2 }}>{icon}</div>
+                      <div>
+                        <h5 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.75rem', color: BRAND.orange, textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: 4 }}>{title}</h5>
+                        <p style={{ color: BRAND.blue, fontFamily: "'Poppins',sans-serif", fontSize: '.95rem', fontWeight: 500 }}>{val}</p>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <div style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                  <Logo size={120} textScale={1.6} dark />
-                  <p style={{ color: 'rgba(255,255,255,.7)', marginTop: 24, fontSize: '.9rem', maxWidth: 260, lineHeight: 1.8, margin: '24px auto 0' }}>
-                    "Your success is our strategy."
-                  </p>
-                </div>
               </div>
-            </div>
-            <div style={{ flex: '1 1 440px' }}>
-              <p className="label gs-up">Our Story</p>
-              <h2 className="gs-up" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,3vw,2.5rem)', color: BRAND.blue, lineHeight: 1.2, marginBottom: 20 }}>
-                Born From a <span style={{ color: BRAND.orange }}>Simple Belief.</span>
-              </h2>
-              <p className="gs-up" style={{ color: BRAND.gray, lineHeight: 1.9, marginBottom: 18 }}>
-                Spotted Point Media was born from the frustration of watching businesses struggle with fragmented solutions. You had beautiful websites that crashed, powerful networks no one understood, and ads that never converted.
-              </p>
-              <p className="gs-up" style={{ color: BRAND.gray, lineHeight: 1.9, marginBottom: 18 }}>
-                We built something different — a full-stack agency that speaks both technology and creativity with equal fluency. Because your business needs both to thrive.
-              </p>
-              <p className="gs-up" style={{ color: BRAND.gray, lineHeight: 1.9, marginBottom: 32 }}>
-                Today we serve small businesses, startups, corporates, and organisations across Ghana and beyond — making them visible, irresistible, and unstoppable.
-              </p>
-              <div style={{ display: 'flex', gap: 32 }}>
-                {[{ val: '8+', label: 'Years' }, { val: '500+', label: 'Clients' }, { val: '1K+', label: 'Projects' }].map(({ val, label }) => (
-                  <div key={label} className="gs-up">
-                    <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: '2.2rem', color: BRAND.orange }}>{val}</div>
-                    <div style={{ fontFamily: "'Poppins',sans-serif", fontSize: '.83rem', color: BRAND.gray }}>{label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Vision & Mission */}
-      <section className="section" style={{ background: BRAND.offWhite }}>
-        <div className="container">
-          <div className="grid-2">
-            {[
-              { label: 'Our Vision', icon: '🔭', bg: BRAND.blue, text: 'To be the first partner businesses turn to when they are ready to stop guessing and start growing. A world where every determined business owner moves through the digital space with clarity, confidence, and control.' },
-              { label: 'Our Mission', icon: '🎯', bg: BRAND.orange, text: 'We empower businesses to take command of their digital presence by making the complex simple and the invisible visible — weaving together the systems that keep you secure with the creativity that makes you irresistible.' },
-            ].map(({ label, icon, bg, text }) => (
-              <div key={label} className="gs-up" style={{ background: bg, borderRadius: 24, padding: '44px 36px', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -30, bottom: -30, fontSize: '8rem', opacity: .06 }}>{icon}</div>
-                <div style={{ fontSize: '2.2rem', marginBottom: 18 }}>{icon}</div>
-                <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, color: '#fff', fontSize: '1.4rem', marginBottom: 16 }}>{label}</h3>
-                <p style={{ color: 'rgba(255,255,255,.8)', lineHeight: 1.9, fontSize: '.95rem' }}>{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              {/* Academy Spotlight Card */}
+              <div 
+                className="morph-card"
+                style={{ 
+                  background: `linear-gradient(135deg, ${BRAND.blueDark}, ${BRAND.blue})`, 
+                  borderRadius: 24, 
+                  padding: '40px 36px', 
+                  color: '#fff',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: '0 12px 36px rgba(40,59,144,0.15)'
+                }}
+              >
+                <div style={{ position: 'absolute', right: -20, bottom: -20, fontSize: '7rem', opacity: .06 }}>🎓</div>
+                <span style={{ display: 'inline-block', background: BRAND.orange, color: '#fff', padding: '4px 12px', borderRadius: 50, fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.64rem', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 16 }}>Academy Launching Soon</span>
+                <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, color: '#fff', fontSize: '1.4rem', marginBottom: 12 }}>Spotted Point Academy</h3>
+                <p style={{ color: 'rgba(255,255,255,.8)', fontSize: '.88rem', lineHeight: 1.8, marginBottom: 24 }}>
+                  Unlock your potential. Join our upcoming premium courses in software development, design, and marketing. Follow our official handles for updates and free tutorials.
+                </p>
 
-      {/* Core Values */}
-      <section className="section" style={{ background: '#fff' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 52px' }}>
-            <p className="label gs-up">What Drives Us</p>
-            <h2 className="gs-up" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,3vw,2.5rem)', color: BRAND.blue }}>
-              Our Core <span style={{ color: BRAND.orange }}>Values</span>
-            </h2>
-          </div>
-          <div className="gs-stagger grid-3">
-            {VALUES.map(({ icon, title, desc }) => (
-              <div key={title} className="card" style={{ padding: '28px 24px', textAlign: 'center' }}>
-                <div style={{ fontSize: '2rem', marginBottom: 14 }}>{icon}</div>
-                <h4 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, marginBottom: 10 }}>{title}</h4>
-                <p style={{ color: BRAND.gray, fontSize: '.88rem', lineHeight: 1.8 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="section" style={{ background: BRAND.offWhite }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 52px' }}>
-            <p className="label gs-up">The People</p>
-            <h2 className="gs-up" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,3vw,2.5rem)', color: BRAND.blue }}>
-              Meet the <span style={{ color: BRAND.orange }}>Team</span>
-            </h2>
-          </div>
-          <div className="gs-stagger grid-4">
-            {TEAM.map(({ name, role, initials, color }) => (
-              <div key={name} style={{ borderRadius: 18, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 20px rgba(40,59,144,.08)', cursor: 'pointer' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-6px)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'none'}
-                style={{ borderRadius: 18, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 20px rgba(40,59,144,.08)', transition: 'transform .3s' }}>
-                <div style={{ height: 180, background: `linear-gradient(135deg, ${color}, ${color}99)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,.2)', border: '3px solid rgba(255,255,255,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: '1.5rem', color: '#fff' }}>
-                    {initials}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <h5 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.72rem', color: BRAND.orange, textTransform: 'uppercase', letterSpacing: '.08em' }}>Follow Our Handles</h5>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    {ACADEMY_SOCIALS.map(({ name, url, brandColor, svg }) => (
+                      <a 
+                        key={name} 
+                        href={url} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        title={name} 
+                        className="micro-bounce" 
+                        style={{
+                          width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,.1)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#fff', textDecoration: 'none', transition: 'background .3s'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = brandColor}
+                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,.1)'}
+                      >
+                        {svg}
+                      </a>
+                    ))}
                   </div>
                 </div>
-                <div style={{ padding: '18px 20px', borderTop: `3px solid ${BRAND.orange}` }}>
-                  <h4 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, marginBottom: 4 }}>{name}</h4>
-                  <p style={{ color: BRAND.orange, fontSize: '.83rem', fontWeight: 600 }}>{role}</p>
-                </div>
               </div>
-            ))}
+
+            </div>
+
+            {/* Right Column: Glassmorphic form */}
+            <div className="gs-right" style={{ flex: '1.2 1 450px' }}>
+              <form 
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className="morph-card"
+                style={{ 
+                  background: BRAND.offWhite, 
+                  borderRadius: 24, 
+                  padding: '40px 36px', 
+                  border: `1px solid ${BRAND.blue}10`,
+                  boxShadow: '0 8px 30px rgba(40,59,144,0.04)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 20
+                }}
+              >
+                <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, color: BRAND.blue, fontSize: '1.4rem', marginBottom: 6 }}>Send a Message</h3>
+                <p style={{ color: BRAND.gray, fontSize: '.88rem', marginBottom: 10 }}>Fill out the form below, and our team will get back to you within 24 hours.</p>
+
+                {/* Name */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label htmlFor="name" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.8rem', color: BRAND.blue }}>Full Name *</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="Enter your name"
+                    style={{ 
+                      padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
+                      background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 
+                      fontSize: '.9rem', outline: 'none', transition: 'border-color .25s' 
+                    }}
+                    onFocus={e => e.target.style.borderColor = BRAND.orange}
+                    onBlur={e => e.target.style.borderColor = `${BRAND.blue}20`}
+                  />
+                </div>
+
+                {/* Email */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label htmlFor="email" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.8rem', color: BRAND.blue }}>Email Address *</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="name@company.com"
+                    style={{ 
+                      padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
+                      background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 
+                      fontSize: '.9rem', outline: 'none', transition: 'border-color .25s' 
+                    }}
+                    onFocus={e => e.target.style.borderColor = BRAND.orange}
+                    onBlur={e => e.target.style.borderColor = `${BRAND.blue}20`}
+                  />
+                </div>
+
+                {/* Service Dropdown */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label htmlFor="service" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.8rem', color: BRAND.blue }}>Interested In</label>
+                  <select 
+                    id="service" 
+                    name="service" 
+                    value={formData.service} 
+                    onChange={handleChange}
+                    style={{ 
+                      padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
+                      background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 
+                      fontSize: '.9rem', outline: 'none', cursor: 'pointer', transition: 'border-color .25s' 
+                    }}
+                    onFocus={e => e.target.style.borderColor = BRAND.orange}
+                    onBlur={e => e.target.style.borderColor = `${BRAND.blue}20`}
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Brand Identity & Design">Brand Identity & Design</option>
+                    <option value="Web & App Development">Web & App Development</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="Video & Motion Production">Video & Motion Production</option>
+                    <option value="Social Media Management">Social Media Management</option>
+                    <option value="IT Solutions & Networking">IT Solutions & Networking</option>
+                    <option value="Spotted Point Academy">Spotted Point Academy</option>
+                  </select>
+                </div>
+
+                {/* Message */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label htmlFor="message" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.8rem', color: BRAND.blue }}>Message *</label>
+                  <textarea 
+                    id="message" 
+                    name="message" 
+                    rows="5"
+                    value={formData.message} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="Tell us about your project or inquiry..."
+                    style={{ 
+                      padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
+                      background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 
+                      fontSize: '.9rem', outline: 'none', resize: 'vertical', transition: 'border-color .25s' 
+                    }}
+                    onFocus={e => e.target.style.borderColor = BRAND.orange}
+                    onBlur={e => e.target.style.borderColor = `${BRAND.blue}20`}
+                  />
+                </div>
+
+                {/* Submit button */}
+                <button 
+                  type="submit" 
+                  disabled={submitting}
+                  className="btn btn-primary btn-morph"
+                  style={{ 
+                    marginTop: 10, 
+                    justifyContent: 'center', 
+                    cursor: submitting ? 'not-allowed' : 'pointer',
+                    opacity: submitting ? 0.8 : 1,
+                    width: '100%'
+                  }}
+                >
+                  {submitting ? 'Sending...' : 'Send Message →'}
+                </button>
+              </form>
+            </div>
+
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ background: BRAND.blue, padding: '80px 24px', textAlign: 'center' }}>
-        <h2 className="gs-up" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,3vw,2.6rem)', color: '#fff', marginBottom: 16 }}>
-          Ready to Work With <span style={{ color: BRAND.orange }}>Us?</span>
-        </h2>
-        <p className="gs-up" style={{ color: 'rgba(255,255,255,.7)', marginBottom: 32, fontSize: '1rem' }}>Let's start a conversation about your growth.</p>
-        <Link to="/contact" className="btn btn-primary gs-up">Get in Touch →</Link>
       </section>
 
       <Footer />

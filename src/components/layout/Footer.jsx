@@ -5,7 +5,13 @@ import Logo from '../ui/Logo';
 
 const services = ['Brand Strategy', 'Web Design', 'Digital Marketing', 'Video Production', 'Social Media', 'IT Security'];
 const company  = ['About Us', 'Our Team', 'Portfolio', 'Blog', 'Gallery', 'Contact'];
-const socials  = [{ label: 'FB', url: '#' }, { label: 'IG', url: '#' }, { label: 'LI', url: '#' }, { label: 'TW', url: '#' }];
+const socials  = [
+  { name: 'Facebook', url: 'https://facebook.com/spottedpointmedia', brandColor: '#1877F2', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+  { name: 'WhatsApp', url: 'https://wa.me/233242760809', brandColor: '#25D366', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> },
+  { name: 'TikTok', url: 'https://tiktok.com/@spottedpointmedia', brandColor: '#000000', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg> },
+  { name: 'Instagram', url: 'https://instagram.com/spottedpointmedia', brandColor: '#E1306C', svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> },
+  { name: 'X (Twitter)', url: 'https://x.com/spottedpointmed', brandColor: '#0f1419', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg> }
+];
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -22,16 +28,21 @@ export default function Footer() {
               We make the invisible visible. Full-stack marketing, technology, and creativity — built for lasting growth.
             </p>
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
-              {socials.map(({ label, url }) => (
-                <a key={label} href={url} style={{
+              {socials.map(({ name, url, brandColor, svg }) => (
+                <a key={name} href={url} target="_blank" rel="noopener noreferrer" title={name} className="micro-bounce" style={{
                   width: 38, height: 38, borderRadius: '50%', background: 'rgba(255,255,255,.08)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.72rem',
-                  color: '#fff', textDecoration: 'none', transition: 'background .25s',
+                  color: '#fff', textDecoration: 'none', transition: 'background .3s, transform .2s',
                 }}
-                  onMouseEnter={e => e.currentTarget.style.background = BRAND.orange}
-                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,.08)'}>
-                  {label}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = brandColor;
+                    e.currentTarget.style.boxShadow = `0 6px 16px ${brandColor}55`;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,.08)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}>
+                  {svg}
                 </a>
               ))}
             </div>

@@ -5,6 +5,104 @@ import { useSmoothScroll, useScrollAnimations } from '../hooks/useGSAP';
 import { BRAND } from '../utils/constants';
 import api from '../api/axios';
 import AOS from 'aos';
+import use3DTilt from '../hooks/use3DTilt';
+import HeroCarousel from '../components/ui/HeroCarousel';
+
+function GalleryCard({ item, index, layoutMode, onClick }) {
+  const tiltRef = use3DTilt();
+  const isMasonry = layoutMode === 'masonry';
+
+  return (
+    <div
+      ref={tiltRef}
+      onClick={onClick}
+      data-aos="fade-up"
+      data-aos-delay={(index % 3) * 80}
+      style={{
+        breakInside: 'avoid',
+        marginBottom: 24,
+        borderRadius: 20,
+        overflow: 'hidden',
+        cursor: 'zoom-in',
+        position: 'relative',
+        display: isMasonry ? 'block' : 'flex',
+        flexDirection: isMasonry ? 'initial' : 'column',
+        background: '#fff',
+        border: `1px solid rgba(40,59,144,0.06)`,
+        boxShadow: '0 4px 24px rgba(6,13,31,0.02)',
+        transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+      }}
+      className="gallery-card morph-card"
+    >
+      {/* Media Container */}
+      <div style={{ position: 'relative', height: isMasonry ? 'auto' : 210, overflow: 'hidden', background: '#f5f6fa' }}>
+        {item.type === 'video' ? (
+          <video className="g-img" src={item.url} style={{ width: '100%', height: isMasonry ? 'auto' : '100%', objectFit: isMasonry ? 'initial' : 'cover', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} muted />
+        ) : (
+          <img className="g-img" src={item.url} alt={item.title} style={{ width: '100%', height: isMasonry ? 'auto' : '100%', objectFit: isMasonry ? 'initial' : 'cover', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} loading="lazy" />
+        )}
+        
+        {/* Floating Category Pill */}
+        <span style={{
+          position: 'absolute',
+          top: 14,
+          left: 14,
+          zIndex: 5,
+          fontSize: '.62rem',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
+          color: BRAND.blue,
+          padding: '5px 12px',
+          borderRadius: 30,
+          fontFamily: "'Montserrat',sans-serif",
+          fontWeight: 800,
+          textTransform: 'uppercase',
+          letterSpacing: '.06em',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+        }}>
+          {item.category || 'General'}
+        </span>
+
+        {/* Icon Hover Overlay */}
+        <div className="g-over" style={{ position: 'absolute', inset: 0, background: 'rgba(6, 13, 31, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.35s ease', zIndex: 2 }}>
+          <div style={{
+            width: 48,
+            height: 48,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.22)',
+            border: '1px solid rgba(255,255,255,0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff',
+            fontSize: '1.25rem',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+            transition: 'transform 0.3s ease'
+          }} className="g-icon">
+            {item.type === 'video' ? '▶' : '🔍'}
+          </div>
+        </div>
+      </div>
+
+      {/* Info Area */}
+      <div style={{ padding: '20px 22px 24px', flex: isMasonry ? 'initial' : 1, display: isMasonry ? 'block' : 'flex', flexDirection: isMasonry ? 'initial' : 'column', justifyContent: isMasonry ? 'initial' : 'space-between' }}>
+        <h4 style={{
+          fontFamily: "'Montserrat',sans-serif",
+          fontWeight: 800,
+          fontSize: '.95rem',
+          color: BRAND.blue,
+          margin: '0 0 6px 0',
+          lineHeight: 1.4,
+        }}>
+          {item.title || 'Creative Production'}
+        </h4>
+        <span style={{ fontSize: '.75rem', color: BRAND.gray, display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
+          {item.type === 'video' ? '🎬 Film & Video' : '📷 Photography Session'}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function GalleryPage() {
   useSmoothScroll();
@@ -54,13 +152,18 @@ export default function GalleryPage() {
 
       {/* Page hero */}
       <section style={{ paddingTop: 140, paddingBottom: 80, background: `linear-gradient(135deg, ${BRAND.navy}, ${BRAND.blueDark})`, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <HeroCarousel images={[
+          'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&q=85',
+          'https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=1400&q=85',
+          'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=85'
+        ]} />
         {/* Glow Effects */}
         <div style={{ position: 'absolute', inset: 0, opacity: 0.15 }}>
           <div style={{ position: 'absolute', top: '-10%', left: '15%', width: '300px', height: '300px', borderRadius: '50%', background: BRAND.orange, filter: 'blur(100px)' }} />
           <div style={{ position: 'absolute', bottom: '-20%', right: '15%', width: '400px', height: '400px', borderRadius: '50%', background: BRAND.blueLight, filter: 'blur(120px)' }} />
         </div>
         
-        <div style={{ position: 'absolute', inset: 0, opacity: .03, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
+        <div style={{ position: 'absolute', inset: 0, opacity: .01, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
         
         <div style={{ position: 'relative', zIndex: 1 }} data-aos="fade-down" data-aos-duration="800">
           <p style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '.75rem', letterSpacing: '.25em', color: BRAND.orange, textTransform: 'uppercase', marginBottom: 12 }}>Our Portfolio</p>
@@ -154,187 +257,28 @@ export default function GalleryPage() {
           {!loading && filtered.length > 0 && (
             layoutMode === 'masonry' ? (
               /* MASONRY VIEW */
-              <div style={{ columns: 'auto 3', columnGap: 24 }}>
+              <div className="gallery-masonry">
                 {filtered.map((item, index) => (
-                  <div
+                  <GalleryCard
                     key={item._id}
+                    item={item}
+                    index={index}
+                    layoutMode="masonry"
                     onClick={() => setSelected(item)}
-                    data-aos="fade-up"
-                    data-aos-delay={(index % 3) * 80}
-                    style={{
-                      breakInside: 'avoid',
-                      marginBottom: 24,
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      cursor: 'zoom-in',
-                      position: 'relative',
-                      display: 'block',
-                      background: '#fff',
-                      border: `1px solid rgba(40,59,144,0.06)`,
-                      boxShadow: '0 4px 24px rgba(6,13,31,0.02)',
-                      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                    className="gallery-card"
-                  >
-                    {/* Media Container */}
-                    <div style={{ position: 'relative', overflow: 'hidden', background: '#f5f6fa' }}>
-                      {item.type === 'video' ? (
-                        <video className="g-img" src={item.url} style={{ width: '100%', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} muted />
-                      ) : (
-                        <img className="g-img" src={item.url} alt={item.title} style={{ width: '100%', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} loading="lazy" />
-                      )}
-                      
-                      {/* Floating Category Pill */}
-                      <span style={{
-                        position: 'absolute',
-                        top: 14,
-                        left: 14,
-                        zIndex: 5,
-                        fontSize: '.62rem',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        backdropFilter: 'blur(10px)',
-                        color: BRAND.blue,
-                        padding: '5px 12px',
-                        borderRadius: 30,
-                        fontFamily: "'Montserrat',sans-serif",
-                        fontWeight: 800,
-                        textTransform: 'uppercase',
-                        letterSpacing: '.06em',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
-                      }}>
-                        {item.category || 'General'}
-                      </span>
-
-                      {/* Icon Hover Overlay */}
-                      <div className="g-over" style={{ position: 'absolute', inset: 0, background: 'rgba(6, 13, 31, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.35s ease', zIndex: 2 }}>
-                        <div style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: '50%',
-                          background: 'rgba(255,255,255,0.22)',
-                          border: '1px solid rgba(255,255,255,0.4)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#fff',
-                          fontSize: '1.25rem',
-                          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-                          transition: 'transform 0.3s ease'
-                        }} className="g-icon">
-                          {item.type === 'video' ? '▶' : '🔍'}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Info Area */}
-                    <div style={{ padding: '20px 22px 24px' }}>
-                      <h4 style={{
-                        fontFamily: "'Montserrat',sans-serif",
-                        fontWeight: 800,
-                        fontSize: '.95rem',
-                        color: BRAND.blue,
-                        margin: '0 0 6px 0',
-                        lineHeight: 1.4,
-                      }}>
-                        {item.title || 'Creative Production'}
-                      </h4>
-                      <span style={{ fontSize: '.75rem', color: BRAND.gray, display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
-                        {item.type === 'video' ? '🎬 Film & Video' : '📷 Photography Session'}
-                      </span>
-                    </div>
-                  </div>
+                  />
                 ))}
               </div>
             ) : (
               /* SQUARE GRID VIEW */
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 28 }}>
+              <div className="gallery-grid">
                 {filtered.map((item, index) => (
-                  <div
+                  <GalleryCard
                     key={item._id}
+                    item={item}
+                    index={index}
+                    layoutMode="grid"
                     onClick={() => setSelected(item)}
-                    data-aos="fade-up"
-                    data-aos-delay={(index % 3) * 80}
-                    style={{
-                      borderRadius: 20,
-                      overflow: 'hidden',
-                      cursor: 'zoom-in',
-                      position: 'relative',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      background: '#fff',
-                      border: `1px solid rgba(40,59,144,0.06)`,
-                      boxShadow: '0 4px 24px rgba(6,13,31,0.02)',
-                      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                    className="gallery-card"
-                  >
-                    {/* Media Container */}
-                    <div style={{ position: 'relative', height: 210, overflow: 'hidden', background: '#f5f6fa' }}>
-                      {item.type === 'video' ? (
-                        <video className="g-img" src={item.url} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} muted />
-                      ) : (
-                        <img className="g-img" src={item.url} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }} loading="lazy" />
-                      )}
-                      
-                      {/* Floating Category Pill */}
-                      <span style={{
-                        position: 'absolute',
-                        top: 14,
-                        left: 14,
-                        zIndex: 5,
-                        fontSize: '.62rem',
-                        background: 'rgba(255, 255, 255, 0.9)',
-                        backdropFilter: 'blur(10px)',
-                        color: BRAND.blue,
-                        padding: '5px 12px',
-                        borderRadius: 30,
-                        fontFamily: "'Montserrat',sans-serif",
-                        fontWeight: 800,
-                        textTransform: 'uppercase',
-                        letterSpacing: '.06em',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
-                      }}>
-                        {item.category || 'General'}
-                      </span>
-
-                      {/* Icon Hover Overlay */}
-                      <div className="g-over" style={{ position: 'absolute', inset: 0, background: 'rgba(6, 13, 31, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.35s ease', zIndex: 2 }}>
-                        <div style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: '50%',
-                          background: 'rgba(255,255,255,0.22)',
-                          border: '1px solid rgba(255,255,255,0.4)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#fff',
-                          fontSize: '1.25rem',
-                          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-                          transition: 'transform 0.3s ease'
-                        }} className="g-icon">
-                          {item.type === 'video' ? '▶' : '🔍'}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Info Area */}
-                    <div style={{ padding: '20px 22px 24px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <h4 style={{
-                        fontFamily: "'Montserrat',sans-serif",
-                        fontWeight: 800,
-                        fontSize: '.95rem',
-                        color: BRAND.blue,
-                        margin: '0 0 6px 0',
-                        lineHeight: 1.4,
-                      }}>
-                        {item.title || 'Creative Production'}
-                      </h4>
-                      <span style={{ fontSize: '.75rem', color: BRAND.gray, display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
-                        {item.type === 'video' ? '🎬 Film & Video' : '📷 Photography Session'}
-                      </span>
-                    </div>
-                  </div>
+                  />
                 ))}
               </div>
             )

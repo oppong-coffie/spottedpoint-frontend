@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Gallery',    path: '/admin/gallery',   icon: '🖼️' },
   { label: 'Blog',       path: '/admin/blog',      icon: '📝' },
   { label: 'Team',       path: '/admin/team',      icon: '👥' },
+  { label: 'Admin',      path: '/admin/admin',     icon: '👤' },
   { label: 'Messages',   path: '/admin/messages',  icon: '✉️' },
 ];
 

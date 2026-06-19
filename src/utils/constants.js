@@ -50,14 +50,6 @@ export const DIRECTORS = [
     initials: 'IO',
     color:   '#0f2d6e',
   },
-    {
-    name:    'Mr. Oppong',
-    role:    'Software Engineer',
-    skills:  ['Web Development', 'Mobile Apps', 'Networking'],
-    photo: '/directors/oppong.png',         // replace with: '/directors/isaac.jpg'
-    initials: 'MO',
-    color:   '#0f2d6e',
-  },
 ];
 
 // ── Services (no cybersecurity) ────────────────────────────────

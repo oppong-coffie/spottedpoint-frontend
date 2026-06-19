@@ -8,6 +8,8 @@ import { useSmoothScroll, useScrollAnimations } from '../hooks/useGSAP';
 import Logo from '../components/ui/Logo';
 import { BRAND } from '../utils/constants';
 import api from '../api/axios';
+import use3DTilt from '../hooks/use3DTilt';
+import HeroCarousel from '../components/ui/HeroCarousel';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +35,73 @@ const VALUES = [
   { icon: '✨', title: 'Bold Creativity',        desc: 'We craft work that stops scrolls and starts conversations.' },
   { icon: '🤝', title: 'Proactive Support',      desc: 'We anticipate your needs before you ask.' },
 ];
+
+function TeamCard({ member, color }) {
+  const tiltRef = use3DTilt();
+  const { name, role, bio, photo, social } = member;
+  const initials = getInitials(member.initials || name);
+
+  return (
+    <div
+      ref={tiltRef}
+      className="team-card morph-card"
+      style={{
+        borderRadius: 18,
+        overflow: 'hidden',
+        background: '#fff',
+        boxShadow: '0 4px 20px rgba(40,59,144,.08)',
+        transition: 'border-color .3s, transform .3s, box-shadow .3s',
+        opacity: 0,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div style={{ height: 260, background: `linear-gradient(135deg, ${color}, ${color}99)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        {photo ? (
+          <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+        ) : (
+          <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,.2)', border: '3px solid rgba(255,255,255,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: '1.5rem', color: '#fff' }}>
+            {initials}
+          </div>
+        )}
+      </div>
+      <div style={{ padding: '18px 20px', borderTop: `3px solid ${BRAND.orange}`, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <h4 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, marginBottom: 4 }}>{name}</h4>
+        <p style={{ color: BRAND.orange, fontSize: '.83rem', fontWeight: 600 }}>{role}</p>
+        {bio && (
+          <p style={{ color: BRAND.gray, fontSize: '.8rem', lineHeight: 1.5, marginTop: 8, fontStyle: 'italic', flex: 1 }}>
+            "{bio}"
+          </p>
+        )}
+        {social && (social.linkedin || social.twitter || social.instagram) && (
+          <div style={{ display: 'flex', gap: 12, marginTop: 14, borderTop: '1px solid #f0f2f7', paddingTop: 10 }}>
+            {social.linkedin && (
+              <a href={social.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
+                 onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
+                 onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
+                LinkedIn
+              </a>
+            )}
+            {social.twitter && (
+              <a href={social.twitter} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
+                 onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
+                 onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
+                Twitter
+              </a>
+            )}
+            {social.instagram && (
+              <a href={social.instagram} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
+                 onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
+                 onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
+                Instagram
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function AboutPage() {
   useSmoothScroll();
@@ -105,7 +174,8 @@ export default function AboutPage() {
         background: `linear-gradient(135deg, ${BRAND.blueDark}, ${BRAND.blue})`,
         position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: .05, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
+        <HeroCarousel />
+        <div style={{ position: 'absolute', inset: 0, opacity: .01, backgroundImage: `linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)`, backgroundSize: '60px 60px' }} />
         <div style={{ position: 'absolute', right: -100, bottom: -100, width: 500, height: 500, borderRadius: '50%', background: 'rgba(248,149,33,.07)' }} />
         <div className="container" style={{ paddingTop: 130, paddingBottom: 80, position: 'relative', zIndex: 1 }}>
           <div className="about-hero-text">
@@ -240,69 +310,9 @@ export default function AboutPage() {
               ))
             ) : (
               team.map((member, index) => {
-                const { name, role, bio, photo, social } = member;
-                const initials = getInitials(member.initials || name);
                 const color = COLORS[index % COLORS.length];
-
                 return (
-                  <div key={member._id || name} className="team-card"
-                    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-6px)'}
-                    onMouseLeave={e => e.currentTarget.style.transform = 'none'}
-                    style={{
-                      borderRadius: 18,
-                      overflow: 'hidden',
-                      background: '#fff',
-                      boxShadow: '0 4px 20px rgba(40,59,144,.08)',
-                      transition: 'transform .3s',
-                      opacity: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    <div style={{ height: 180, background: `linear-gradient(135deg, ${color}, ${color}99)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {photo ? (
-                        <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,.2)', border: '3px solid rgba(255,255,255,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: '1.5rem', color: '#fff' }}>
-                          {initials}
-                        </div>
-                      )}
-                    </div>
-                    <div style={{ padding: '18px 20px', borderTop: `3px solid ${BRAND.orange}`, flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <h4 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, marginBottom: 4 }}>{name}</h4>
-                      <p style={{ color: BRAND.orange, fontSize: '.83rem', fontWeight: 600 }}>{role}</p>
-                      {bio && (
-                        <p style={{ color: BRAND.gray, fontSize: '.8rem', lineHeight: 1.5, marginTop: 8, fontStyle: 'italic', flex: 1 }}>
-                          "{bio}"
-                        </p>
-                      )}
-                      {social && (social.linkedin || social.twitter || social.instagram) && (
-                        <div style={{ display: 'flex', gap: 12, marginTop: 14, borderTop: '1px solid #f0f2f7', paddingTop: 10 }}>
-                          {social.linkedin && (
-                            <a href={social.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
-                               onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
-                               onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
-                              LinkedIn
-                            </a>
-                          )}
-                          {social.twitter && (
-                            <a href={social.twitter} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
-                               onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
-                               onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
-                              Twitter
-                            </a>
-                          )}
-                          {social.instagram && (
-                            <a href={social.instagram} target="_blank" rel="noopener noreferrer" style={{ color: BRAND.blue, fontSize: '.85rem', textDecoration: 'none', transition: 'color .2s' }}
-                               onMouseEnter={e => e.currentTarget.style.color = BRAND.orange}
-                               onMouseLeave={e => e.currentTarget.style.color = BRAND.blue}>
-                              Instagram
-                            </a>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <TeamCard key={member._id || member.name} member={member} color={color} />
                 );
               })
             )}

@@ -32,6 +32,7 @@ import AdminProjects       from './pages/admin/AdminProjects';
 import AdminGallery        from './pages/admin/AdminGallery';
 import AdminBlog           from './pages/admin/AdminBlog';
 import AdminTeam           from './pages/admin/AdminTeam';
+import AdminAdmin          from './pages/admin/AdminAdmin';
 import AdminMessages       from './pages/admin/AdminMessages';
 import AdminRoute          from './components/admin/AdminRoute';
 
@@ -43,6 +44,72 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     AOS.refresh();
+
+    const wrapWordsInNode = (node) => {
+      if (!node) return;
+      if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim().length > 0) {
+        const parent = node.parentNode;
+        if (parent && 
+            !parent.classList.contains('hover-word') && 
+            !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SVG', 'PATH', 'IMG', 'PICTURE', 'IFRAME', 'VIDEO', 'AUDIO', 'CANVAS', 'CODE', 'PRE'].includes(parent.tagName) &&
+            !parent.closest('button') && 
+            !parent.closest('a') &&
+            !parent.closest('script') &&
+            !parent.closest('style') &&
+            !parent.closest('input') &&
+            !parent.closest('textarea')) {
+          
+          const words = node.nodeValue.split(/(\s+)/);
+          const fragment = document.createDocumentFragment();
+          
+          words.forEach(word => {
+            if (word.trim().length > 0) {
+              const span = document.createElement('span');
+              span.className = 'hover-word';
+              span.textContent = word;
+              fragment.appendChild(span);
+            } else {
+              fragment.appendChild(document.createTextNode(word));
+            }
+          });
+          
+          parent.replaceChild(fragment, node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (!['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SVG', 'PATH', 'IMG', 'PICTURE', 'IFRAME', 'VIDEO', 'AUDIO', 'CANVAS', 'CODE', 'PRE'].includes(node.tagName) &&
+            !node.classList.contains('hover-word') &&
+            !node.closest('button') && 
+            !node.closest('a')) {
+          const children = Array.from(node.childNodes);
+          for (const child of children) {
+            wrapWordsInNode(child);
+          }
+        }
+      }
+    };
+
+    const timer = setTimeout(() => {
+      const root = document.getElementById('root');
+      if (root) wrapWordsInNode(root);
+    }, 200);
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          wrapWordsInNode(node);
+        });
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, [location.pathname]);
 
   return (
@@ -66,6 +133,7 @@ function AnimatedRoutes() {
         <Route path="/admin/gallery"  element={<AdminRoute><AdminGallery /></AdminRoute>} />
         <Route path="/admin/blog"     element={<AdminRoute><AdminBlog /></AdminRoute>} />
         <Route path="/admin/team"     element={<AdminRoute><AdminTeam /></AdminRoute>} />
+        <Route path="/admin/admin"    element={<AdminRoute><AdminAdmin /></AdminRoute>} />
         <Route path="/admin/messages" element={<AdminRoute><AdminMessages /></AdminRoute>} />
 
       </Routes>

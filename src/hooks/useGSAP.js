@@ -39,7 +39,8 @@ export function useScrollAnimations() {
       gsap.utils.toArray('.gs-up').forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0, y: 55 },
-          { opacity: 1, y: 0, duration: .85, ease: 'power3.out',
+          {
+            opacity: 1, y: 0, duration: .85, ease: 'power3.out', delay: 0.2,
             scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
           }
         );
@@ -49,7 +50,8 @@ export function useScrollAnimations() {
       gsap.utils.toArray('.gs-left').forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0, x: -65 },
-          { opacity: 1, x: 0, duration: .9, ease: 'power3.out',
+          {
+            opacity: 1, x: 0, duration: .9, ease: 'power3.out', delay: 0.2,
             scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' }
           }
         );
@@ -59,7 +61,8 @@ export function useScrollAnimations() {
       gsap.utils.toArray('.gs-right').forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0, x: 65 },
-          { opacity: 1, x: 0, duration: .9, ease: 'power3.out',
+          {
+            opacity: 1, x: 0, duration: .9, ease: 'power3.out', delay: 0.2,
             scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' }
           }
         );
@@ -69,7 +72,8 @@ export function useScrollAnimations() {
       gsap.utils.toArray('.gs-stagger').forEach((parent) => {
         gsap.fromTo(parent.children,
           { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: .7, stagger: .12, ease: 'power3.out',
+          {
+            opacity: 1, y: 0, duration: .7, stagger: .12, ease: 'power3.out', delay: 0.2,
             scrollTrigger: { trigger: parent, start: 'top 85%', toggleActions: 'play none none none' }
           }
         );

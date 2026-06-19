@@ -80,7 +80,7 @@ export default function Navbar() {
           ))}
 
           {/* Let's Talk button */}
-          <Link to="/contact" style={{
+          <Link to="/contact" className="btn-morph" style={{
             background: BRAND.orange, color: '#fff',
             padding: '10px 22px', borderRadius: 50,
             fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
@@ -136,7 +136,7 @@ export default function Navbar() {
               borderBottom: `1px solid ${BRAND.blue}08`,
             }}>{label}</Link>
           ))}
-          <Link to="/contact" style={{
+          <Link to="/contact" className="btn-morph" style={{
             display: 'inline-block', marginTop: 18,
             background: BRAND.orange, color: '#fff',
             padding: '12px 28px', borderRadius: 50,
