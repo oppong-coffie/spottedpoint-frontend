@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../../api/axios';
 import toast from 'react-hot-toast';
 import use3DTilt from '../../hooks/use3DTilt';
@@ -6,12 +7,38 @@ import { BRAND } from '../../utils/constants';
 
 export default function ContactForm({ style = {}, title, subtitle }) {
   const formRef = use3DTilt();
+  const [searchParams] = useSearchParams();
+  const planParam = searchParams.get('plan');
+  const serviceParam = searchParams.get('service');
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    service: 'General Inquiry',
-    message: ''
+  const [formData, setFormData] = useState(() => {
+    let initialService = 'General Inquiry';
+    let initialMessage = '';
+
+    if (serviceParam) {
+      initialService = serviceParam;
+    } else if (planParam) {
+      const planUpper = planParam.toUpperCase();
+      if (planUpper.includes('BRANDING') || planUpper.includes('BRAND')) {
+        initialService = 'Brand Identity & Design';
+      } else if (planUpper.includes('SOCIAL') || planUpper.includes('MEDIA')) {
+        initialService = 'Social Media Management';
+      } else if (planUpper.includes('ADS') || planUpper.includes('MARKETING') || planUpper.includes('PIXEL') || planUpper.includes('SEO') || planUpper.includes('SEM') || planUpper.includes('CONVERSION')) {
+        initialService = 'Digital Marketing';
+      } else if (planUpper.includes('ANIMATION') || planUpper.includes('MOTION')) {
+        initialService = 'Video & Motion Production';
+      } else if (planUpper.includes('FUNERAL') || planUpper.includes('CHURCH') || planUpper.includes('GRAPHIC') || planUpper.includes('POSTER') || planUpper.includes('FLYER') || planUpper.includes('BILLBOARD') || planUpper.includes('BROCHURE')) {
+        initialService = 'Brand Identity & Design';
+      }
+      initialMessage = `Hello, I am interested in ordering the "${planParam}" plan. Please get in touch with me to discuss details.`;
+    }
+
+    return {
+      name: '',
+      email: '',
+      service: initialService,
+      message: initialMessage
+    };
   });
 
   const [submitting, setSubmitting] = useState(false);

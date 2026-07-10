@@ -26,9 +26,9 @@ const HERO_WORDS = ['Connects.', 'Inspires.', 'Converts.', 'Commands.'];
 // '/hero/production.jpg', '/hero/billboard.jpg', etc.
 const HERO_SLIDES = [
   { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=90', label: 'Video Production' },
-  { src: 'https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=1400&q=90', label: 'Brand Identity'   },
+  { src: 'https://images.unsplash.com/photo-1683721003111-070bcc053d8b?q=80&w=1700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Brand Identity'   },
   { src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=90', label: 'Graphic Design'   },
-  { src: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1400&q=90', label: 'Digital Marketing' },
+  { src: 'https://plus.unsplash.com/premium_photo-1661389625547-e4977d5727a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Digital Marketing' },
 ];
 
 // Exactly 4 services (matching reference)
@@ -183,6 +183,38 @@ function Hero() {
           <CountingStat target={500} suffix="+" label="Clients" />
           <CountingStat target={8} suffix="+" label="Years" />
         </div>
+        <div className="hero-cta" style={{ marginTop: 28 }}>
+          <Link
+            to="/contact"
+            style={{
+              background: BRAND.orange,
+              color: '#fff',
+              fontWeight: 800,
+              fontSize: '.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '.18em',
+              padding: '14px 32px',
+              borderRadius: 6,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              boxShadow: `0 10px 28px ${BRAND.orange}38`,
+              transition: 'transform .22s ease, box-shadow .22s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = `0 14px 32px ${BRAND.orange}48`;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = `0 10px 28px ${BRAND.orange}38`;
+            }}>
+            <span>Start a Project</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2 }}><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+          </Link>
+        </div>
+
       </div>
 
       {/* ── RIGHT: Image slideshow — diagonal cut + orange accent ── */}

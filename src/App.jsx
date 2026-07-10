@@ -24,6 +24,7 @@ import GalleryPage         from './pages/GalleryPage';
 import BlogPage            from './pages/BlogPage';
 import BlogSingle          from './pages/BlogSingle';
 import ContactPage         from './pages/ContactPage';
+import PricingPage         from './pages/PricingPage';
 
 // ── Admin pages ──────────────────────────────────────────────────────────────
 import AdminLogin          from './pages/admin/AdminLogin';
@@ -129,6 +130,7 @@ function AnimatedRoutes() {
         <Route path="/blog"       element={<PageTransition><BlogPage /></PageTransition>} />
         <Route path="/blog/:slug" element={<PageTransition><BlogSingle /></PageTransition>} />
         <Route path="/contact"    element={<PageTransition><ContactPage /></PageTransition>} />
+        <Route path="/pricing"    element={<PageTransition><PricingPage /></PageTransition>} />
 
         {/* ── Admin ── */}
         <Route path="/admin/login"    element={<AdminLogin />} />
