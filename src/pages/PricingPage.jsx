@@ -563,30 +563,23 @@ export default function PricingPage() {
                 </div>
 
                 {/* Grid of pricing cards */}
-                <div className={section.layout === 'list' ? 'grid-2' : 'grid-3'} style={{ gap: 28, marginTop: 10 }}>
+                <div className={section.layout === 'list' ? 'grid-2' : 'grid-3'} style={{ gap: 32, marginTop: 20 }}>
                   {section.plans.map((plan, planIdx) => (
                     <div
                       key={planIdx}
-                      className="card-dark"
-                      style={{
-                        position: 'relative',
-                        padding: '42px 30px 36px 30px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        textAlign: 'left',
-                        border: plan.popular ? `2px solid ${BRAND.orange}` : `1px solid rgba(255,255,255,.07)`,
-                        minHeight: '100%',
-                        overflow: 'hidden'
-                      }}
+                      className="pricing-card-slide"
                     >
-                      {/* Popular / Standard ribbon badge */}
+                      {/* Angled orange tier banner tag wrap */}
+                      <div className="pricing-ribbon">
+                        {plan.name}
+                      </div>
+
+                      {/* Popular / Best Value badge */}
                       {plan.popular && (
                         <div style={{
                           position: 'absolute',
-                          top: 14,
-                          right: 14,
+                          top: 26,
+                          right: 24,
                           background: `${BRAND.orange}20`,
                           border: `1.5px solid ${BRAND.orange}`,
                           borderRadius: 50,
@@ -604,57 +597,40 @@ export default function PricingPage() {
 
                       {/* Header content */}
                       <div style={{ width: '100%' }}>
-                        {/* Angled orange tier tag */}
-                        <div style={{
-                          display: 'inline-block',
-                          background: BRAND.orange,
-                          color: '#fff',
-                          fontFamily: "'Montserrat',sans-serif",
-                          fontWeight: 800,
-                          fontSize: '.72rem',
-                          padding: '4px 14px',
-                          borderRadius: '4px 16px 4px 4px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '.06em',
-                          marginBottom: 20
-                        }}>
-                          {plan.name}
-                        </div>
-
-                        {/* Price rendering */}
-                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 24 }}>
-                          <span style={{
-                            fontFamily: "'Montserrat',sans-serif",
-                            fontWeight: 900,
-                            fontSize: '2.6rem',
-                            color: '#fff',
-                            letterSpacing: '-1px'
-                          }}>
-                            {formatPrice(plan)}
-                          </span>
-                          <span style={{ color: BRAND.gray, fontSize: '.84rem', fontWeight: 600 }}>
-                            {section.sectionTitle.includes('Social Media Management') ? '/ mo' : '/ project'}
-                          </span>
+                        {/* Price rendering (stacked Cedi & USD matching screenshot) */}
+                        <div style={{ margin: '14px 0 28px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                          <div className="price-tag-ghs">
+                            ¢{plan.priceGhs}
+                          </div>
+                          {plan.priceUsd !== null ? (
+                            <div className="price-tag-usd">
+                              ${plan.priceUsd}
+                            </div>
+                          ) : (
+                            <div className="price-tag-usd" style={{ fontSize: '1.6rem', color: '#3a52b8' }}>
+                              ~${Math.round(plan.priceGhs / EXCHANGE_RATE)}*
+                            </div>
+                          )}
                         </div>
 
                         {/* Feature lists with Triangle bullets */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 30 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 32, paddingLeft: 8 }}>
                           {plan.features.map((feature, featureIdx) => (
-                            <div key={featureIdx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                            <div key={featureIdx} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', textAlign: 'left' }}>
                               <span style={{
                                 color: BRAND.orange,
-                                fontSize: '.68rem',
-                                marginTop: 4,
-                                display: 'inline-block',
-                                transform: 'rotate(0deg)'
+                                fontSize: '.8rem',
+                                marginTop: 2,
+                                display: 'inline-block'
                               }}>
                                 ➤
                               </span>
                               <p style={{
-                                color: 'rgba(255,255,255,.85)',
+                                color: '#1a2760', // Dark Navy text color for high contrast
                                 fontFamily: "'Poppins',sans-serif",
-                                fontSize: '.9rem',
-                                lineHeight: 1.5
+                                fontSize: '.94rem',
+                                fontWeight: 600,
+                                lineHeight: 1.45
                               }}>
                                 {feature}
                               </p>
@@ -666,12 +642,11 @@ export default function PricingPage() {
                       {/* Call-to-action button */}
                       <Link
                         to={`/contact?plan=${encodeURIComponent(`${section.sectionTitle} - ${plan.name}`)}`}
-                        className={`btn ${plan.popular ? 'btn-primary' : 'btn-glass'}`}
+                        className="btn btn-dark-navy"
                         style={{
                           width: '100%',
                           justifyContent: 'center',
-                          padding: '12px 24px',
-                          fontSize: '.85rem'
+                          fontSize: '.88rem'
                         }}
                       >
                         Order Plan →

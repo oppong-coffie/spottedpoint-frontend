@@ -12,7 +12,7 @@ import SectionScenes       from '../animations/SectionScenes';
 import VelocityEffect      from '../animations/VelocityEffect';
 import useScrollAnimations from '../animations/useScrollAnimations';
 import { useSmoothScroll } from '../hooks/useGSAP';
-import { BRAND, DIRECTORS } from '../utils/constants';
+import { BRAND } from '../utils/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../api/axios';
 import use3DTilt from '../hooks/use3DTilt';
@@ -542,139 +542,6 @@ function AboutPreview() {
   );
 }
 
-// ─── DIRECTORS ────────────────────────────────────────────────────────────────
-function DirectorCard({ name, role, initials, color, skills, photo }) {
-  const tiltRef = use3DTilt();
-  return (
-    <div
-      ref={tiltRef}
-      className="reveal-card morph-card"
-      style={{
-        borderRadius: 22, overflow: 'hidden',
-        background: '#fff',
-        border: `1px solid ${BRAND.blue}0e`,
-        boxShadow: '0 6px 32px rgba(40,59,144,.09)',
-        transition: 'border-color .3s, transform .3s, box-shadow .3s',
-      }}>
-
-      {/* ── Photo area — taller than before ── */}
-      <div style={{
-        height: 320,
-        background: `linear-gradient(155deg, ${color}, ${color}88)`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        {/* Dot grid background */}
-        <div style={{ position: 'absolute', inset: 0, opacity: .08 }}>
-          {Array.from({ length: 80 }).map((_, i) => (
-            <div key={i} style={{
-              position: 'absolute', width: 3, height: 3,
-              borderRadius: '50%', background: '#fff',
-              left: (i % 10) * 48 + 8,
-              top: Math.floor(i / 10) * 38 + 8,
-            }} />
-          ))}
-        </div>
-
-        {/* Photo or placeholder */}
-        {photo ? (
-          <img src={photo} alt={name} style={{
-            width: 150, height: 150, borderRadius: '50%',
-            objectFit: 'cover',
-            objectPosition: 'top',
-            border: '4px solid rgba(255,255,255,.35)',
-            position: 'relative', zIndex: 1,
-            boxShadow: '0 8px 32px rgba(0,0,0,.2)',
-          }} />
-        ) : (
-          // Placeholder circle — awaiting photo
-          <div style={{
-            width: 150, height: 150, borderRadius: '50%',
-            background: 'rgba(255,255,255,.15)',
-            border: '3px solid rgba(255,255,255,.35)',
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            position: 'relative', zIndex: 1, gap: 6,
-            backdropFilter: 'blur(4px)',
-          }}>
-            <span style={{
-              fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-              fontSize: '2.4rem', color: 'rgba(255,255,255,.9)',
-              letterSpacing: '.02em',
-            }}>{initials}</span>
-          </div>
-        )}
-
-        {/* Scanning line effect */}
-        <div style={{
-          position: 'absolute', left: 0, right: 0, height: 1,
-          background: 'linear-gradient(90deg,transparent,rgba(248,149,33,.6),transparent)',
-          animation: 'scan 4s linear infinite', opacity: .5,
-        }} />
-
-        {/* Name overlay at bottom of photo area */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
-          padding: '24px 22px 18px',
-          background: 'linear-gradient(to top, rgba(0,0,0,.5), transparent)',
-          zIndex: 2,
-        }}>
-          <h3 style={{
-            fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-            color: '#fff', fontSize: '1.12rem', marginBottom: 2,
-          }}>{name}</h3>
-          <p style={{
-            color: BRAND.orange, fontSize: '.78rem',
-            fontFamily: "'Montserrat',sans-serif", fontWeight: 700,
-          }}>{role}</p>
-        </div>
-      </div>
-
-      {/* ── Skills section ── */}
-      <div style={{
-        padding: '18px 22px 22px',
-        borderTop: `3px solid ${BRAND.orange}`,
-      }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-          {skills.map(s => (
-            <span key={s} style={{
-              fontSize: '.7rem',
-              background: `${BRAND.blue}08`,
-              border: `1px solid ${BRAND.blue}14`,
-              color: '#555', padding: '4px 11px',
-              borderRadius: 50,
-              fontFamily: "'Montserrat',sans-serif", fontWeight: 600,
-            }}>{s}</span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── DIRECRORS STRIP ────────────────────────────────────────────────────────────
-function DirectorsStrip() {
-  return (
-    <section className="section" style={{ background: '#fff', padding: '80px 0' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <p className="label fade-in">Leadership</p>
-          <h2 className="fade-in" style={{
-            fontFamily: "'Montserrat',sans-serif", fontWeight: 900,
-            fontSize: 'clamp(1.8rem,3vw,2.4rem)', color: BRAND.blue,
-          }}>The Directors</h2>
-        </div>
-
-        <div className="grid-3" style={{ gap: 28 }}>
-          {DIRECTORS.map((director) => (
-            <DirectorCard key={director.name} {...director} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── CLIENTS STRIP ────────────────────────────────────────────────────────────
 function ClientsStrip() {
   return (
@@ -856,7 +723,6 @@ export default function Home() {
       <ServiceIconsRow />
       <FeaturedWorks />
       <AboutPreview />
-      <DirectorsStrip />
       <ClientsStrip />
       <CTASection />
       <Footer />

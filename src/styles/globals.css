@@ -425,3 +425,98 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Montserrat', sans-serif; }
   0%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
   50% { transform: translate(-50px, 30px) scale(1.1); opacity: 0.4; }
 }
+
+/* ── SLIDE PRICING CARDS (PDF DESIGN MATCHER) ── */
+.pricing-card-slide {
+  position: relative;
+  background: #EBECEF; /* Light gray background matching screenshot */
+  border: 2.2px solid #F89521; /* Orange border */
+  border-radius: 32px;
+  padding: 85px 24px 34px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.35s;
+}
+
+.pricing-card-slide:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3), 0 0 35px rgba(248, 149, 33, 0.25);
+  border-color: #ffaa3b;
+}
+
+/* Banner ribbon */
+.pricing-ribbon {
+  position: absolute;
+  top: 24px;
+  left: -8px;
+  background: #F89521;
+  color: #1a2760; /* Dark Navy text inside */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  padding: 6px 28px 6px 20px;
+  width: 172px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.12);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  z-index: 10;
+}
+
+/* Ribbon fold */
+.pricing-ribbon::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #c26c07; /* Darker shadow color under fold */
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+/* Price texts inside cards */
+.price-tag-ghs {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 2.8rem;
+  color: #1a2760;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.price-tag-usd {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: #283B90;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-top: 4px;
+}
+
+/* Custom dark button for high contrast inside light-colored cards */
+.btn-dark-navy {
+  background: #1a2760;
+  color: #fff;
+  border-radius: 50px;
+  font-weight: 800;
+  padding: 12px 28px;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.04em;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(26,39,96,0.25);
+}
+
+.btn-dark-navy:hover {
+  background: #F89521;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(248,149,33,0.5), 0 0 35px rgba(248,149,33,0.2);
+}
+
