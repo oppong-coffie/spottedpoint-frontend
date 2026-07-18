@@ -347,7 +347,7 @@ const PRICING_DATA = {
         {
           name: 'Starter Web',
           priceGhs: 3500,
-          priceUsd: 350,
+          priceUsd: null,
           features: [
             '1 Page / Landing Page design',
             'Fully responsive layout',
@@ -358,23 +358,36 @@ const PRICING_DATA = {
           popular: false
         },
         {
-          name: 'Business Web',
-          priceGhs: 7500,
-          priceUsd: 750,
+          name: 'Business Web (Informative)',
+          priceGhs: 5000,
+          priceUsd: null,
           features: [
             'Up to 5 Pages',
             'Custom UI/UX layout design',
-            'CMS Integration (WordPress/Strapi)',
             'Standard SEO configuration',
             'Social media integration',
+            '3 Months support'
+          ],
+          popular: false
+        },
+        {
+          name: 'Business Web (With Admin)',
+          priceGhs: 10000,
+          priceUsd: null,
+          features: [
+            'Up to 10 Pages',
+            'Custom Admin Dashboard',
+            'Secure User Authentication',
+            'Database Integration',
+            'CMS Integration (WordPress/Strapi)',
             '3 Months support'
           ],
           popular: true
         },
         {
           name: 'E-Commerce Portal',
-          priceGhs: 15000,
-          priceUsd: 1500,
+          priceGhs: 250000,
+          priceUsd: null,
           features: [
             'Unlimited products page',
             'Shopping cart & payment gateway (Paystack/PayPal)',
@@ -393,9 +406,22 @@ const PRICING_DATA = {
       layout: 'grid',
       plans: [
         {
+          name: 'Management System',
+          priceGhs: 70000,
+          priceUsd: null,
+          features: [
+            'Custom workflow modules (School/Church/Hospital)',
+            'User access control (RBAC)',
+            'Activity logging & auditing',
+            'Reporting & analytics dashboard',
+            'Secure database backend'
+          ],
+          popular: false
+        },
+        {
           name: 'Mobile App',
-          priceGhs: 25000,
-          priceUsd: 2500,
+          priceGhs: 70000,
+          priceUsd: null,
           features: [
             'Cross-platform iOS & Android',
             'Custom modern user interface',
@@ -406,9 +432,9 @@ const PRICING_DATA = {
           popular: false
         },
         {
-          name: 'Custom SaaS / Web App',
-          priceGhs: 35000,
-          priceUsd: 3500,
+          name: 'Custom SaaS',
+          priceGhs: 90000,
+          priceUsd: null,
           features: [
             'Tailored workflows & business logic',
             'Secure user authentication',
@@ -417,6 +443,19 @@ const PRICING_DATA = {
             'Cloud hosting setup (AWS/Vercel/Heroku)'
           ],
           popular: true
+        },
+        {
+          name: 'Fintech System',
+          priceGhs: 4000000,
+          priceUsd: null,
+          features: [
+            'Secure payment gateway integrations',
+            'KYC & AML validation flows',
+            'Multi-tenant architecture',
+            'High-frequency transaction ledger',
+            'Bank-grade compliance & security'
+          ],
+          popular: false
         }
       ]
     }
@@ -550,7 +589,7 @@ export default function PricingPage() {
           {/* Active category tables */}
           <div className="gs-stagger" style={{ display: 'flex', flexDirection: 'column', gap: 60 }}>
             {PRICING_DATA[activeTab].map((section, sectionIdx) => (
-              <div key={sectionIdx} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <div key={`${activeTab}-${sectionIdx}`} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                 
                 {/* Section title & desc */}
                 <div style={{ textAlign: 'left', borderLeft: `3px solid ${BRAND.orange}`, paddingLeft: 16 }}>
@@ -566,7 +605,7 @@ export default function PricingPage() {
                 <div className={section.layout === 'list' ? 'grid-2' : 'grid-3'} style={{ gap: 32, marginTop: 20 }}>
                   {section.plans.map((plan, planIdx) => (
                     <div
-                      key={planIdx}
+                      key={`${activeTab}-${sectionIdx}-${planIdx}-${plan.name}`}
                       className="pricing-card-slide"
                     >
                       {/* Angled orange tier banner tag wrap */}
