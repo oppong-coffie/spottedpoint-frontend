@@ -1,14 +1,26 @@
 import axios from 'axios';
 
 const getBaseURL = () => {
-  let url = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
-  // Prevent Mixed Content errors when frontend is served over HTTPS
-  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
-    if (url.startsWith('http://') && !url.includes('localhost')) {
-      url = url.replace(/^http:\/\//, 'https://');
+  // 1. If VITE_API_URL environment variable is configured, use it
+  if (import.meta.env.VITE_API_URL) {
+    let url = import.meta.env.VITE_API_URL;
+    // If an IP address was passed with https (e.g. https://34.194.8.232/api), browsers fail with ERR_CERT_COMMON_NAME_INVALID.
+    // Fall back to relative '/api' on HTTPS production domains if raw IP HTTPS is detected.
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+      if (/^https?:\/\/\d+\.\d+\.\d+\.\d+/.test(url)) {
+        return '/api';
+      }
     }
+    return url;
   }
-  return url;
+
+  // 2. In local dev mode, default to localhost backend
+  if (import.meta.env.DEV) {
+    return 'http://localhost:5001/api';
+  }
+
+  // 3. In production, default to relative '/api' route (same HTTPS domain & valid SSL)
+  return '/api';
 };
 
 const api = axios.create({ baseURL: getBaseURL() });
