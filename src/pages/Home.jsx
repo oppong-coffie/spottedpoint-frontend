@@ -26,7 +26,7 @@ const HERO_WORDS = ['Connects.', 'Inspires.', 'Converts.', 'Commands.'];
 // '/hero/production.jpg', '/hero/billboard.jpg', etc.
 const HERO_SLIDES = [
   { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=90', label: 'Video Production' },
-  { src: 'https://images.unsplash.com/photo-1683721003111-070bcc053d8b?q=80&w=1700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Brand Identity'   },
+  { src: '/brand.png', label: 'Brand Identity'   },
   { src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=90', label: 'Graphic Design'   },
   { src: 'https://plus.unsplash.com/premium_photo-1661389625547-e4977d5727a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Digital Marketing' },
 ];

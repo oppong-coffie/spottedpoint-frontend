@@ -5,7 +5,15 @@ export default function Logo({ size = 48, textScale = 1, dark = false }) {
   const s = size / 50;
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 * s }}>
-      <svg width={size} height={size} viewBox="0 0 50 50">
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 50 50"
+        style={{
+          animation: 'spinSlow 25s linear infinite',
+          transformOrigin: 'center'
+        }}
+      >
         {Array.from({ length: 16 }).map((_, i) => {
           const a = (i / 16) * 2 * Math.PI;
           return <circle key={i} cx={25 + 22 * Math.cos(a)} cy={25 + 22 * Math.sin(a)} r={1.4} fill={BRAND.blue} opacity={.55} />;

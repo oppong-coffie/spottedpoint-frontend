@@ -38,6 +38,21 @@ export default function Navbar() {
       transition: 'box-shadow .3s ease',
       padding: scrolled ? '12px 0' : '16px 0',
     }}>
+      <style>{`
+        @keyframes navBtnPulse {
+          0%, 100% {
+            box-shadow: 0 4px 16px rgba(248, 149, 33, 0.4), 0 0 0 0 rgba(248, 149, 33, 0.4);
+            transform: scale(1);
+          }
+          50% {
+            box-shadow: 0 8px 24px rgba(248, 149, 33, 0.75), 0 0 0 10px rgba(248, 149, 33, 0);
+            transform: scale(1.04);
+          }
+        }
+        .nav-lets-talk:hover {
+          animation-play-state: paused !important;
+        }
+      `}</style>
       <div style={{
         maxWidth: 1260, margin: '0 auto', padding: '0 28px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -81,18 +96,25 @@ export default function Navbar() {
           ))}
 
           {/* Let's Talk button */}
-          <Link to="/contact" className="btn-morph" style={{
+          <Link to="/contact" className="btn-morph nav-lets-talk" style={{
             background: BRAND.orange, color: '#fff',
             padding: '10px 22px', borderRadius: 50,
             fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
             fontSize: '.8rem', textDecoration: 'none',
             letterSpacing: '.04em',
-            transition: 'all .3s',
-            boxShadow: '0 4px 16px rgba(248,149,33,.3)',
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            transition: 'all .3s ease',
+            animation: 'navBtnPulse 2.5s ease-in-out infinite',
           }}
-            onMouseEnter={e => { e.currentTarget.style.background = BRAND.blue; e.currentTarget.style.boxShadow = '0 4px 16px rgba(40,59,144,.3)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = BRAND.orange; e.currentTarget.style.boxShadow = '0 4px 16px rgba(248,149,33,.3)'; }}>
-            Let's Talk
+            onMouseEnter={e => { e.currentTarget.style.background = BRAND.blue; e.currentTarget.style.boxShadow = '0 6px 20px rgba(40,59,144,.4)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = BRAND.orange; e.currentTarget.style.boxShadow = 'none'; }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%',
+              background: '#fff', display: 'inline-block',
+              boxShadow: '0 0 6px #fff',
+              animation: 'blink 1.5s ease-in-out infinite'
+            }} />
+            <span>Let's Talk</span>
           </Link>
         </div>
 
@@ -137,13 +159,22 @@ export default function Navbar() {
               borderBottom: `1px solid ${BRAND.blue}08`,
             }}>{label}</Link>
           ))}
-          <Link to="/contact" className="btn-morph" style={{
-            display: 'inline-block', marginTop: 18,
+          <Link to="/contact" className="btn-morph nav-lets-talk" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 18,
             background: BRAND.orange, color: '#fff',
             padding: '12px 28px', borderRadius: 50,
             fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
             fontSize: '.88rem', textDecoration: 'none',
-          }}>Let's Talk</Link>
+            animation: 'navBtnPulse 2.5s ease-in-out infinite',
+          }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%',
+              background: '#fff', display: 'inline-block',
+              boxShadow: '0 0 6px #fff',
+              animation: 'blink 1.5s ease-in-out infinite'
+            }} />
+            <span>Let's Talk</span>
+          </Link>
         </div>
       </div>
     </nav>
