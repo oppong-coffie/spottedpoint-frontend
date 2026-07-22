@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api' });
+const getBaseURL = () => {
+  let url = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+  // Prevent Mixed Content errors when frontend is served over HTTPS
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    if (url.startsWith('http://') && !url.includes('localhost')) {
+      url = url.replace(/^http:\/\//, 'https://');
+    }
+  }
+  return url;
+};
+
+const api = axios.create({ baseURL: getBaseURL() });
 
 api.interceptors.request.use((config) => {
   const user = JSON.parse(localStorage.getItem('spm_user') || '{}');
