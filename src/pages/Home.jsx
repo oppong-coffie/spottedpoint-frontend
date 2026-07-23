@@ -27,12 +27,26 @@ const HERO_WORDS = ['Connects.', 'Inspires.', 'Converts.', 'Commands.'];
 const HERO_SLIDES = [
   { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=90', label: 'Video Production' },
   { src: '/brand.png', label: 'Brand Identity'   },
+  { src: '/software.png', label: 'Software Development'   },
   { src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1400&q=90', label: 'Graphic Design'   },
   { src: 'https://plus.unsplash.com/premium_photo-1661389625547-e4977d5727a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Digital Marketing' },
 ];
 
 // Exactly 4 services (matching reference)
 const HOME_SERVICES = [
+  {
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" strokeWidth="1.8" stroke="currentColor" fill="none" strokeLinecap="round">
+        <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+        <path d="M7 12h10"></path>
+        <path d="M7 16h6"></path>
+        <path d="M7 8h3"></path>
+      </svg>
+      
+    ),
+    label: 'Software Development',
+    desc: 'We build custom software solutions that streamline your business operations and drive growth.',
+  },
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -72,9 +86,9 @@ const HOME_SERVICES = [
 ];
 
 const FALLBACK_WORKS = [
-  { _id: 1, title: 'TechNova Brand Identity', category: 'Branding',  image: 'https://images.unsplash.com/photo-1626785774625-0b1c2c4eab67?w=700&q=80' },
+  { _id: 1, title: 'TechNova Brand Identity', category: 'Branding',  image: 'https://images.unsplash.com/photo-1557858310-9052820906f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { _id: 2, title: 'Horizon Documentary',     category: 'Video',     image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=700&q=80' },
-  { _id: 3, title: 'SignGo Campaign',          category: 'Marketing', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=700&q=80' },
+  { _id: 3, title: 'SignGo Campaign',          category: 'Marketing', image: 'https://plus.unsplash.com/premium_photo-1726711234495-92966b568e13?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
 ];
 
 const TICKER_ITEMS = [
@@ -131,14 +145,15 @@ function Hero() {
           background: `${BRAND.blue}0c`, border: `1px solid ${BRAND.blue}1e`,
           borderRadius: 50, padding: '5px 16px',
           marginBottom: 22, alignSelf: 'flex-start',
+          maxWidth: '100%', boxSizing: 'border-box',
         }}>
           <span style={{
-            width: 6, height: 6, background: BRAND.orange, borderRadius: '50%',
+            width: 6, height: 6, background: BRAND.orange, borderRadius: '50%', flexShrink: 0,
             display: 'inline-block', animation: 'neonPulse 2s ease-in-out infinite',
           }} />
           <span style={{
             fontFamily: "'Montserrat',sans-serif", fontWeight: 700,
-            fontSize: '.68rem', letterSpacing: '.16em',
+            fontSize: '.68rem', letterSpacing: '.14em',
             color: BRAND.blue, textTransform: 'uppercase',
           }}>
             Full Stack Marketing Agency · Accra, Ghana

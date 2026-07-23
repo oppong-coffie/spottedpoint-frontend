@@ -60,7 +60,10 @@ function AnimatedRoutes() {
             !parent.closest('input') &&
             !parent.closest('textarea') &&
             !parent.closest('.hero-stats') &&
-            !parent.closest('.counting-stat')) {
+            !parent.closest('.counting-stat') &&
+            !parent.closest('.hero-badge') &&
+            !parent.closest('.label') &&
+            !parent.closest('.pricing-ribbon')) {
           
           const words = node.nodeValue.split(/(\s+)/);
           const fragment = document.createDocumentFragment();
@@ -84,7 +87,10 @@ function AnimatedRoutes() {
             !node.closest('button') && 
             !node.closest('a') &&
             !node.closest('.hero-stats') &&
-            !node.closest('.counting-stat')) {
+            !node.closest('.counting-stat') &&
+            !node.closest('.hero-badge') &&
+            !node.closest('.label') &&
+            !node.closest('.pricing-ribbon')) {
           const children = Array.from(node.childNodes);
           for (const child of children) {
             wrapWordsInNode(child);

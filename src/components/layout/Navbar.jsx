@@ -35,8 +35,11 @@ export default function Navbar() {
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 900,
       background: '#fff',
       boxShadow: scrolled ? '0 2px 24px rgba(40,59,144,.1)' : '0 1px 0 rgba(40,59,144,.06)',
-      transition: 'box-shadow .3s ease',
+      transition: 'box-shadow .3s ease, padding .3s ease',
       padding: scrolled ? '12px 0' : '16px 0',
+      width: '100%',
+      maxWidth: '100vw',
+      boxSizing: 'border-box',
     }}>
       <style>{`
         @keyframes navBtnPulse {
@@ -54,8 +57,9 @@ export default function Navbar() {
         }
       `}</style>
       <div style={{
-        maxWidth: 1260, margin: '0 auto', padding: '0 28px',
+        maxWidth: 1260, margin: '0 auto', padding: '0 20px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        width: '100%', boxSizing: 'border-box',
       }}>
 
         {/* ── Logo ── always static, never changes color ── */}

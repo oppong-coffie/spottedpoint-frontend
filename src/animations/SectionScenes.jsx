@@ -22,12 +22,17 @@ export default function SectionScenes() {
 
       // About section slide in
       if (document.querySelector('.about-left')) {
+        const isMobile = window.innerWidth <= 768;
         gsap.from('.about-left', {
-          x: -100, opacity: 0,
+          x: isMobile ? 0 : -60,
+          y: isMobile ? 40 : 0,
+          opacity: 0,
           scrollTrigger: { trigger: '.about', start: 'top 78%', end: 'top 40%', scrub: 1 },
         });
         gsap.from('.about-right', {
-          x: 100, opacity: 0,
+          x: isMobile ? 0 : 60,
+          y: isMobile ? 40 : 0,
+          opacity: 0,
           scrollTrigger: { trigger: '.about', start: 'top 78%', end: 'top 40%', scrub: 1 },
         });
       }
