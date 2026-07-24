@@ -386,7 +386,7 @@ const PRICING_DATA = {
         },
         {
           name: 'E-Commerce Portal',
-          priceGhs: 250000,
+          priceGhs: 25000,
           priceUsd: null,
           features: [
             'Unlimited products page',
@@ -446,7 +446,7 @@ const PRICING_DATA = {
         },
         {
           name: 'Fintech System',
-          priceGhs: 4000000,
+          priceGhs: 400000,
           priceUsd: null,
           features: [
             'Secure payment gateway integrations',
