@@ -47,6 +47,25 @@ const HOME_SERVICES = [
     label: 'Software Development',
     desc: 'We build custom software solutions that streamline your business operations and drive growth.',
   },
+    {
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
+    label: 'Digital Marketing',
+    desc: 'Data-driven strategies that grow your brand online.',
+  },
+    {
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        <rect width="20" height="14" x="2" y="5" rx="2" ry="2"/>
+<path d="M2 10h20"/>
+      </svg>
+    ),
+    label: 'Graphics Design',
+    desc: 'We create stunning visuals that capture attention and communicate your message.',
+  },
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -62,18 +81,10 @@ const HOME_SERVICES = [
         <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
       </svg>
     ),
-    label: 'Content Creation',
+    label: 'Content Marketing',
     desc: 'Engaging content that informs, inspires, and connects.',
   },
-  {
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-      </svg>
-    ),
-    label: 'Digital Marketing',
-    desc: 'Data-driven strategies that grow your brand online.',
-  },
+
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
