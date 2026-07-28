@@ -7,11 +7,11 @@ const NAV_LINKS = [
   { label: 'Home',      path: '/' },
   { label: 'About Us',  path: '/about' },
   { label: 'Services',  path: '/services' },
-  { label: 'Pricing',   path: '/pricing' },
+  // { label: 'Pricing',   path: '/pricing' },
   { label: 'Projects', path: '/portfolio' },
   { label: 'Gallery',   path: '/gallery' },
   { label: 'Blog',      path: '/blog' },
-  { label: 'Contact',   path: '/contact' },
+  // { label: 'Contact',   path: '/contact' },
 ];
 
 export default function Navbar() {
