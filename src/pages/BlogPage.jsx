@@ -85,17 +85,19 @@ export default function BlogPage() {
                         {Array.from({ length: 18 }).map((_, j) => <div key={j} style={{ position: 'absolute', width: 5, height: 5, borderRadius: '50%', background: '#fff', left: (j % 6) * 60 + 15, top: Math.floor(j / 6) * 60 + 15 }} />)}
                       </div>
                     )}
-                    {post.tag && (
-                      <div style={{ position: 'absolute', top: 16, left: 16, background: BRAND.orange, borderRadius: 50, padding: '4px 14px', fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.72rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '.08em' }}>
-                        {post.tag}
-                      </div>
-                    )}
                   </div>
                   {/* Content */}
                   <div style={{ padding: '22px 22px 26px' }}>
-                    <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                      <span style={{ color: BRAND.gray, fontSize: '.8rem' }}>{new Date(post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                      {post.readTime && <span style={{ color: BRAND.orange, fontSize: '.8rem' }}>· {post.readTime}</span>}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
+                      {post.tag && (
+                        <span style={{ background: BRAND.orange, borderRadius: 5, padding: '4px 12px', fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.7rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '.08em' }}>
+                          {post.tag}
+                        </span>
+                      )}
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: '.8rem', color: BRAND.gray, marginLeft: 'auto' }}>
+                        <span>{new Date(post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        {post.readTime && <span style={{ color: BRAND.orange }}>· {post.readTime}</span>}
+                      </div>
                     </div>
                     <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, lineHeight: 1.4, marginBottom: 12, fontSize: '1.05rem' }}>
                       {post.title}
