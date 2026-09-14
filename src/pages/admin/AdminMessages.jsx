@@ -54,7 +54,14 @@ export default function AdminMessages() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
               <div>
                 <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, color: BRAND.blue, marginBottom: 4 }}>{selected.name}</h3>
-                <a href={`mailto:${selected.email}`} style={{ color: BRAND.orange, fontSize: '.88rem' }}>{selected.email}</a>
+                <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <a href={`mailto:${selected.email}`} style={{ color: BRAND.orange, fontSize: '.88rem' }}>{selected.email}</a>
+                  {selected.phone && (
+                    <a href={`tel:${selected.phone}`} style={{ color: BRAND.blue, fontSize: '.88rem', textDecoration: 'none', fontWeight: 600 }}>
+                      📞 {selected.phone}
+                    </a>
+                  )}
+                </div>
               </div>
               <button onClick={() => setSelected(null)} style={{ background: `${BRAND.blue}10`, border: 'none', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontFamily: "'Montserrat',sans-serif", fontWeight: 700, color: BRAND.blue }}>✕</button>
             </div>
@@ -67,9 +74,16 @@ export default function AdminMessages() {
               <p style={{ color: BRAND.blue, lineHeight: 1.8, fontSize: '.93rem' }}>{selected.message}</p>
             </div>
             <p style={{ color: BRAND.gray, fontSize: '.8rem' }}>Received: {new Date(selected.createdAt).toLocaleString()}</p>
-            <a href={`mailto:${selected.email}?subject=Re: Your enquiry to Spotted Point Media`} className="btn btn-primary" style={{ marginTop: 20, textDecoration: 'none', display: 'inline-flex' }}>
-              Reply via Email →
-            </a>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 20 }}>
+              <a href={`mailto:${selected.email}?subject=Re: Your enquiry to Spotted Point Media`} className="btn btn-primary" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+                Reply via Email →
+              </a>
+              {selected.phone && (
+                <a href={`tel:${selected.phone}`} className="btn" style={{ textDecoration: 'none', display: 'inline-flex', background: `${BRAND.blue}12`, color: BRAND.blue, border: `1px solid ${BRAND.blue}25` }}>
+                  Call Phone
+                </a>
+              )}
+            </div>
           </div>
         )}
       </div>

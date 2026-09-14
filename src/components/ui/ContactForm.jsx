@@ -36,6 +36,7 @@ export default function ContactForm({ style = {}, title, subtitle }) {
     return {
       name: '',
       email: '',
+      phone: '',
       service: initialService,
       message: initialMessage
     };
@@ -63,6 +64,7 @@ export default function ContactForm({ style = {}, title, subtitle }) {
       setFormData({
         name: '',
         email: '',
+        phone: '',
         service: 'General Inquiry',
         message: ''
       });
@@ -132,6 +134,26 @@ export default function ContactForm({ style = {}, title, subtitle }) {
           onChange={handleChange} 
           required 
           placeholder="name@company.com"
+          style={{ 
+            padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
+            background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 
+            fontSize: '.9rem', outline: 'none', transition: 'border-color .25s' 
+          }}
+          onFocus={e => e.target.style.borderColor = BRAND.orange}
+          onBlur={e => e.target.style.borderColor = `${BRAND.blue}20`}
+        />
+      </div>
+
+      {/* Phone Number */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <label htmlFor="phone" style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.8rem', color: BRAND.blue }}>Phone Number</label>
+        <input 
+          type="tel" 
+          id="phone" 
+          name="phone" 
+          value={formData.phone} 
+          onChange={handleChange} 
+          placeholder="+233 24 000 0000"
           style={{ 
             padding: '13px 16px', borderRadius: 10, border: `1px solid ${BRAND.blue}20`, 
             background: '#fff', color: BRAND.blue, fontFamily: "'Poppins',sans-serif", 

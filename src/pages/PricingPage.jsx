@@ -12,6 +12,7 @@ const CATEGORIES = [
   { id: 'media-branding', label: 'Media & Branding', icon: '🎨' },
   { id: 'marketing-seo', label: 'Marketing & SEO', icon: '📈' },
   { id: 'software-web', label: 'Web & Software', icon: '💻' },
+  { id: 'it-hardware', label: 'POS & CCTV Security', icon: '📹' },
   { id: 'event-promo', label: 'Event Promotions', icon: '📅' },
   { id: 'alacarte-creative', label: 'A-La-Carte & Design', icon: '⚙️' }
 ];
@@ -454,6 +455,92 @@ const PRICING_DATA = {
             'Multi-tenant architecture',
             'High-frequency transaction ledger',
             'Bank-grade compliance & security'
+          ],
+          popular: false
+        }
+      ]
+    }
+  ],
+  'it-hardware': [
+    {
+      sectionTitle: 'Point of Sale (POS) Systems',
+      sectionDesc: 'Complete retail, supermarket, pharmacy, and restaurant Point of Sale hardware and software solutions.',
+      layout: 'grid',
+      plans: [
+        {
+          name: 'Starter Retail POS',
+          priceGhs: 4500,
+          priceUsd: null,
+          features: [
+            'All-in-One Touchscreen POS Terminal',
+            'Thermal Receipt Printer (58mm/80mm)',
+            'Heavy Duty Electronic Cash Drawer',
+            'Handheld Barcode Laser Scanner',
+            'Retail & Supermarket Software Setup',
+            '1 Month Support & Staff Training'
+          ],
+          popular: false
+        },
+        {
+          name: 'Commercial & Restaurant POS',
+          priceGhs: 8500,
+          priceUsd: null,
+          features: [
+            'Dual-Screen Touch POS + Customer Display',
+            'Thermal Receipt Printer & Barcode Scanner',
+            'Kitchen Printer / Order Display System',
+            'Cloud Inventory Sync & Multi-Store Management',
+            'Mobile Money & Card Payment Integration',
+            '3 Months Priority Support & Training'
+          ],
+          popular: true
+        }
+      ]
+    },
+    {
+      sectionTitle: 'CCTV Camera Surveillance Installation',
+      sectionDesc: 'Professional high-definition & IP security camera systems with 24/7 crystal-clear remote mobile phone viewing.',
+      layout: 'grid',
+      plans: [
+        {
+          name: '4-Channel HD CCTV Package',
+          priceGhs: 3200,
+          priceUsd: null,
+          features: [
+            '4x HD Night-Vision Dome/Bullet Cameras',
+            '4-Channel DVR / NVR & 1TB Surveillance HDD',
+            'Remote Live Monitoring on iOS & Android Phones',
+            'Central Power Supply & Heavy Duty Cabling',
+            'Neat Conduit Trunking & Clean Installation',
+            '3 Months System Warranty & Support'
+          ],
+          popular: false
+        },
+        {
+          name: '8-Channel HD/IP Security Package',
+          priceGhs: 5800,
+          priceUsd: null,
+          features: [
+            '8x HD/IP Weatherproof Day/Night Cameras',
+            '8-Channel NVR/DVR & 2TB Surveillance HDD',
+            '24/7 Smartphone Live View & Playback',
+            'AI Motion Detection & Instant Push Alerts',
+            'Structured Cabling & Surge Protection',
+            '6 Months System Warranty & Maintenance'
+          ],
+          popular: true
+        },
+        {
+          name: '16-Channel Enterprise Surveillance',
+          priceGhs: 10500,
+          priceUsd: null,
+          features: [
+            '16x 4K Ultra-HD / IP Network Cameras',
+            '16-Channel Enterprise NVR & 4TB HDD',
+            'Multi-Screen Central Security Control Setup',
+            'Remote Smartphone & PC Multi-View Streaming',
+            'Full Structured Cabling & Server Rack Setup',
+            '1 Year Priority Maintenance & Technical Support'
           ],
           popular: false
         }

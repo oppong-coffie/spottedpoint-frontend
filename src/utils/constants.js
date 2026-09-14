@@ -56,8 +56,9 @@ export const DIRECTORS = [
 export const SERVICES_DATA = [
   { icon: '🎨', title: 'Brand Identity & Design',    desc: 'Logos, brand systems, and visual identities that command attention and build lasting trust.' },
   { icon: '🌐', title: 'Web & App Development',       desc: 'High-performance websites, web apps, mobile apps, and desktop applications built to scale.' },
+  { icon: '📹', title: 'POS & CCTV Installation',     desc: 'Complete retail POS system setup and professional CCTV surveillance cameras with remote mobile monitoring.' },
   { icon: '📈', title: 'Digital Marketing',           desc: 'Data-driven campaigns across search, social, and display that deliver measurable ROI.' },
   { icon: '🎬', title: 'Video & Motion Production',   desc: 'Corporate films, product demos, motion graphics, and social-first video content.' },
   { icon: '📱', title: 'Social Media Management',     desc: 'Strategic content creation and community management across all major platforms.' },
-  { icon: '🖥️', title: 'IT Solutions & Networking',  desc: 'Network design, installation, maintenance, IT support, and data analysis for all organisations.' },
+  { icon: '🖥️', title: 'IT Solutions & Networking',  desc: 'Network design, installation, maintenance, IT support, and enterprise infrastructure.' },
 ];

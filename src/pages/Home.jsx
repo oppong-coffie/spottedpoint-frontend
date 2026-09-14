@@ -32,7 +32,7 @@ const HERO_SLIDES = [
   { src: 'https://plus.unsplash.com/premium_photo-1661389625547-e4977d5727a6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', label: 'Digital Marketing' },
 ];
 
-// Exactly 4 services (matching reference)
+// Core services
 const HOME_SERVICES = [
   {
     icon: (
@@ -42,12 +42,22 @@ const HOME_SERVICES = [
         <path d="M7 16h6"></path>
         <path d="M7 8h3"></path>
       </svg>
-      
     ),
     label: 'Software Development',
     desc: 'We build custom software solutions that streamline your business operations and drive growth.',
   },
-    {
+  {
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M23 7l-7 5 7 5V7z" />
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+        <circle cx="8.5" cy="12" r="2.5" />
+      </svg>
+    ),
+    label: 'POS & CCTV Installation',
+    desc: 'Retail & restaurant POS setup and professional CCTV surveillance cameras with 24/7 mobile monitoring.',
+  },
+  {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
@@ -56,11 +66,11 @@ const HOME_SERVICES = [
     label: 'Digital Marketing',
     desc: 'Data-driven strategies that grow your brand online.',
   },
-    {
+  {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <rect width="20" height="14" x="2" y="5" rx="2" ry="2"/>
-<path d="M2 10h20"/>
+        <path d="M2 10h20"/>
       </svg>
     ),
     label: 'Graphics Design',
@@ -77,6 +87,18 @@ const HOME_SERVICES = [
   },
   {
     icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+      </svg>
+    ),
+    label: 'IT & Infrastructure',
+    desc: 'Enterprise networking, server setup, hardware maintenance, and reliable tech support.',
+  },
+  {
+    icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
         <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
       </svg>
@@ -84,7 +106,6 @@ const HOME_SERVICES = [
     label: 'Content Marketing',
     desc: 'Engaging content that informs, inspires, and connects.',
   },
-
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -103,8 +124,8 @@ const FALLBACK_WORKS = [
 ];
 
 const TICKER_ITEMS = [
-  'Brand Identity', 'Web Development', 'Motion Design', 'Digital Marketing',
-  'Video Production', 'Graphic Design', 'Social Media', 'Mobile Apps', 'IT Solutions', 'Animation',
+  'Brand Identity', 'Web Development', 'POS Systems', 'CCTV Installation', 'Motion Design', 'Digital Marketing',
+  'Video Production', 'Graphic Design', 'Social Media', 'Mobile Apps', 'IT Solutions', 'Surveillance Security',
 ];
 
 const CLIENT_NAMES = [

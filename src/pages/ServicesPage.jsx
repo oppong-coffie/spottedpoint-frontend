@@ -175,6 +175,48 @@ const CATEGORIES = [
           'Creative Pattern Modeling',
           '3D Packshot Visual Illustration Renders'
         ]
+      },
+       {
+        name: 'Funeral Event Promotion Package',
+        desc: 'High-quality graphic assets and printed collateral to celebrate loved ones.',
+        popular: false,
+        features: [
+          'Poster & Invitation Card Design',
+          'Event Banner & Billboard Design',
+          'Event Brochure / Program Booklet',
+          'Event Souvenirs Artwork (Mugs, T-Shirts, etc.)'
+        ]
+      },
+      {
+        name: 'Church Event Promotion Package',
+        desc: 'Engage congregations and pull crowds to conferences and crusades.',
+        popular: true,
+        features: [
+          'Flyer & Poster Design',
+          'Invitation Card & Banner Design',
+          'Program Booklet Outline & Conference Brochure',
+          'Billboard Setup & Souvenirs Artwork'
+        ]
+      },
+      {
+        name: 'Flyer or Poster Design',
+        desc: 'Bespoke high-impact graphic design asset for events or marketing campaigns.',
+        popular: false,
+        features: [
+          'High Quality Print-Ready Graphic Design',
+          '1 Review Cycle Included',
+          'Delivered in High-Res JPG & PDF'
+        ]
+      },
+      {
+        name: 'Billboard Layout Design',
+        desc: 'Large-scale outdoor advertising blueprints and realistic mock placements.',
+        popular: false,
+        features: [
+          'Large Scale Vector Blueprint',
+          'Billboard Mockup Placement',
+          'Delivered in Ultra-High Resolution'
+        ]
       }
     ]
   },
@@ -320,7 +362,7 @@ const CATEGORIES = [
   },
   {
     id: 'motion-graphics',
-    tabName: 'Motion & CGI',
+    tabName: 'Motion & 3D',
     title: 'Motion Graphics & 3D CGI Animation',
     icon: '🎬',
     desc: 'Captivate your audience with 2D motion explainer ads and high-fidelity 3D CGI product reveal animations.',
@@ -350,63 +392,38 @@ const CATEGORIES = [
     ]
   },
   {
-    id: 'event-promo',
-    tabName: 'Event & Creative',
-    title: 'Event Promotions & Creative Assets',
-    icon: '📅',
-    desc: 'Honour occasions and pull crowds to events, crusades, and conferences with complete visual packages and print collateral.',
+    id: 'it-cybersecurity',
+    tabName: 'IT Solutions',
+    title: 'IT Solutions, POS & CCTV Installation',
+    icon: '📹',
+    desc: 'Complete retail POS system deployment, professional CCTV surveillance camera installation, enterprise networking, cloud servers, and full technical maintenance.',
     specificServices: [
       {
-        name: 'Funeral Event Promotion Package',
-        desc: 'High-quality graphic assets and printed collateral to celebrate loved ones.',
-        popular: false,
-        features: [
-          'Poster & Invitation Card Design',
-          'Event Banner & Billboard Design',
-          'Event Brochure / Program Booklet',
-          'Event Souvenirs Artwork (Mugs, T-Shirts, etc.)'
-        ]
-      },
-      {
-        name: 'Church Event Promotion Package',
-        desc: 'Engage congregations and pull crowds to conferences and crusades.',
+        name: 'POS System Installation & Setup',
+        desc: 'Complete Point of Sale hardware and software setup for retail shops, supermarkets, pharmacies, and restaurants.',
         popular: true,
         features: [
-          'Flyer & Poster Design',
-          'Invitation Card & Banner Design',
-          'Program Booklet Outline & Conference Brochure',
-          'Billboard Setup & Souvenirs Artwork'
+          'Touchscreen POS Terminal & All-in-One Hardware Setup',
+          'Thermal Receipt Printer, Cash Drawer & Barcode Scanner',
+          'Real-Time Inventory Management & Stock Alert System',
+          'Mobile Money, Credit Card & Cash Payment Integration',
+          'Cloud-Synced Multi-Branch Sales Reporting & Analytics',
+          'Staff Training & 30-Day Post-Launch Technical Support'
         ]
       },
       {
-        name: 'Flyer or Poster Design',
-        desc: 'Bespoke high-impact graphic design asset for events or marketing campaigns.',
-        popular: false,
+        name: 'CCTV Camera Surveillance Installation',
+        desc: 'High-definition & IP security camera installation with 24/7 crystal-clear remote mobile phone live monitoring.',
+        popular: true,
         features: [
-          'High Quality Print-Ready Graphic Design',
-          '1 Review Cycle Included',
-          'Delivered in High-Res JPG & PDF'
+          'HD & 4K IP Dome/Bullet Cameras (Indoor & Weatherproof Outdoor)',
+          'Multi-Channel DVR / NVR Recording & High-Capacity Hard Drive',
+          '24/7 Remote Live View & Playback on iOS & Android Phones',
+          'Infrared Night Vision & AI Motion Detection Alerts',
+          'Concealed Neat Cabling & Surge Protection Setup',
+          'Scheduled System Health Checks & Ongoing Maintenance'
         ]
       },
-      {
-        name: 'Billboard Layout Design',
-        desc: 'Large-scale outdoor advertising blueprints and realistic mock placements.',
-        popular: false,
-        features: [
-          'Large Scale Vector Blueprint',
-          'Billboard Mockup Placement',
-          'Delivered in Ultra-High Resolution'
-        ]
-      }
-    ]
-  },
-  {
-    id: 'it-cybersecurity',
-    tabName: 'IT & Infrastructure',
-    title: 'IT Solutions & Infrastructure',
-    icon: '🔒',
-    desc: 'Robust IT infrastructure, networking, server configuration, cloud setups, and technical support.',
-    specificServices: [
       {
         name: 'Network Architecture & Cabling',
         desc: 'Business cabling, router/switch installation, and enterprise Wi-Fi configuration.',
@@ -498,15 +515,10 @@ export default function ServicesPage() {
 
           {/* Active Category Header */}
           <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 16, background: `${BRAND.orange}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', margin: '0 auto 16px auto' }}>
-              {currentCategory.icon}
-            </div>
             <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 900, fontSize: 'clamp(1.8rem,3vw,2.5rem)', color: BRAND.blue, marginBottom: 12 }}>
               {currentCategory.title}
             </h2>
-            <p style={{ color: BRAND.gray, maxWidth: 620, margin: '0 auto', lineHeight: 1.8, fontSize: '.96rem' }}>
-              {currentCategory.desc}
-            </p>
+       
           </div>
 
           {/* Specific Services Grid of Cards */}
