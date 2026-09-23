@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotted Point Media - Official Agency Flyer & Ad Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #060d1f;
+      --navy-dark: #030a18;
+      --navy-card: #0b1736;
+      --navy-border: rgba(40, 59, 144, 0.4);
+      --blue: #283B90;
+      --blue-light: #3a52b8;
+      --orange: #F89521;
+      --orange-glow: rgba(248, 149, 33, 0.35);
+      --white: #ffffff;
+      --gray: #9ba7bd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #020712;
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px 16px 80px;
+    }
+
+    /* Action bar */
+    .toolbar {
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: rgba(11, 23, 54, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--navy-border);
+    }
+
+    .toolbar-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: var(--orange);
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      border: none;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--orange-glow);
+    }
+    .btn-primary:hover {
+      background: #e07f10;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* Flyer Container (standard high quality A4 aspect ratio 1 : 1.414) */
+    .flyer {
+      width: 100%;
+      max-width: 820px;
+      background: radial-gradient(circle at 50% 10%, #152758 0%, var(--navy) 40%, var(--navy-dark) 100%);
+      border: 1px solid rgba(58, 82, 184, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(40, 59, 144, 0.25);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient decorative background glows */
+    .glow-top-left {
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(248, 149, 33, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .glow-top-right {
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(40, 59, 144, 0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Header */
+    .flyer-header {
+      text-align: center;
+      padding: 38px 28px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: #fff;
+    }
+
+    .brand-title span {
+      color: var(--orange);
+    }
+
+    .brand-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d1dcff;
+      margin-top: 8px;
+    }
+
+    .brand-tagline span {
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    .header-subtext {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-top: 10px;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* Grid of Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 10px 28px 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-card {
+      background: linear-gradient(145deg, rgba(14, 27, 61, 0.7) 0%, rgba(7, 15, 34, 0.85) 100%);
+      border: 1px solid var(--navy-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue-light), var(--orange), transparent);
+      opacity: 0.4;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(248, 149, 33, 0.12);
+      border: 1px solid rgba(248, 149, 33, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #ffffff;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .service-tags {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .service-tags li {
+      font-size: 0.82rem;
+      color: #b7c5df;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .service-tags li::before {
+      content: "•";
+      color: var(--orange);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      margin: 4px 28px 20px;
+      background: linear-gradient(90deg, #10214a 0%, #1e3a82 50%, #10214a 100%);
+      border: 1px solid rgba(248, 149, 33, 0.5);
+      border-radius: 12px;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .cta-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .cta-text span {
+      color: var(--orange);
+    }
+
+    .cta-tag {
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Footer & Contacts */
+    .flyer-footer {
+      background: #020712;
+      border-top: 1px solid rgba(58, 82, 184, 0.3);
+      padding: 20px 28px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      column-gap: 32px;
+      row-gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.84rem;
+      color: #d1dcff;
+    }
+
+    .contact-item strong {
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
+    .contact-item svg, .contact-item .ci-icon {
+      color: var(--orange);
+      font-size: 1.1rem;
+    }
+
+    .qr-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qr-box {
+      width: 72px;
+      height: 72px;
+      background: #fff;
+      border-radius: 8px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-caption {
+      font-size: 0.65rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        margin: 0;
+      }
+      .toolbar, .social-kit {
+        display: none !important;
+      }
+      .flyer {
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-list {
+        grid-template-columns: 1fr;
+      }
+      .brand-title {
+        font-size: 1.6rem;
+      }
+      .flyer-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Social Kit Card below flyer */
+    .social-kit {
+      width: 100%;
+      max-width: 820px;
+      margin-top: 32px;
+      background: rgba(11, 23, 54, 0.85);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .social-kit h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .caption-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: #d1dcff;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: var(--blue-light);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation / Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-title">SPOTTED POINT MEDIA • PROMOTIONAL AD KIT</div>
+    <div class="toolbar-actions">
+      <button class="btn btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <a class="btn btn-primary" href="/spotted_point_flyer.jpg" download="spotted_point_flyer.jpg">📥 Download Flyer Image</a>
+    </div>
+  </div>
+
+  <!-- The Flyer -->
+  <div class="flyer" id="flyerElement">
+    <div class="glow-top-left"></div>
+    <div class="glow-top-right"></div>
+
+    <!-- Header Section -->
+    <header class="flyer-header">
+      <div class="brand-logo-badge">
+        <svg width="44" height="44" viewBox="0 0 50 50">
+          <circle cx="25" cy="25" r="22" stroke="#283B90" stroke-width="2" fill="none" stroke-dasharray="4 4" opacity="0.6"/>
+          <circle cx="25" cy="25" r="14" stroke="#3a52b8" stroke-width="2" fill="none" opacity="0.8"/>
+          <circle cx="25" cy="25" r="6" fill="#F89521" />
+        </svg>
+      </div>
+      <h1 class="brand-title">Spotted <span>Point</span> Media</h1>
+      <p class="brand-tagline">We Make The Invisible <span>Visible</span></p>
+      <p class="header-subtext">
+        Full-stack technology, strategic branding, digital marketing, and intelligent surveillance solutions tailored to power business growth.
+      </p>
+    </header>
+
+    <!-- Services Grid (6 Key Pillars) -->
+    <main class="services-grid">
+      <!-- 1: Web & App Dev -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">💻</div>
+          <div class="card-title">Software & Web Development</div>
+        </div>
+        <ul class="service-tags">
+          <li>Custom Web & Mobile Applications</li>
+          <li>High-Converting Business Websites & Portals</li>
+          <li>Scalable Cloud & Database Solutions</li>
+        </ul>
+      </div>
+
+      <!-- 2: POS & CCTV -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">📹</div>
+          <div class="card-title">POS & CCTV Surveillance</div>
+        </div>
+        <ul class="service-tags">
+          <li>Retail, Pharmacy & Restaurant POS Systems</li>
+          <li>HD & 4K CCTV Cameras with Mobile Live Feed</li>
+          <li>24/7 Security & Inventory Management</li>
+        </ul>
+      </div>
+
+      <!-- 3: Brand Identity -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">🎨</div>
+          <div class="card-title">Brand Identity & Design</div>
+        </div>
+        <ul class="service-tags">
+          <li>Memorable Logos & Corporate Style Guides</li>
+          <li>Marketing Collateral, Brochures & Packaging</li>
+          <li>Visual Systems that Command Attention</li>
+        </ul>
+      </div>
+
+      <!-- 4: Digital Marketing -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">📈</div>
+          <div class="card-title">Digital Marketing & SEO</div>
+        </div>
+        <ul class="service-tags">
+          <li>Targeted Social Media & Google Ads (PPC)</li>
+          <li>Search Engine Optimization for Maximum Reach</li>
+          <li>High-Converting Sales Funnels & Lead Gen</li>
+        </ul>
+      </div>
+
+      <!-- 5: Video Production -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">🎬</div>
+          <div class="card-title">Video & Motion Production</div>
+        </div>
+        <ul class="service-tags">
+          <li>High-Quality Corporate & Product Commercials</li>
+          <li>Eye-Catching 2D/3D Motion Graphics & Reels</li>
+          <li>Story-Driven Brand Documentaries</li>
+        </ul>
+      </div>
+
+      <!-- 6: IT & Infrastructure -->
+      <div class="service-card">
+        <div class="card-head">
+          <div class="icon-box">🖥️</div>
+          <div class="card-title">IT Support & Enterprise Networking</div>
+        </div>
+        <ul class="service-tags">
+          <li>Office Network Setup & Server Administration</li>
+          <li>Reliable Hardware, Backup & IT Maintenance</li>
+          <li>Ongoing Technical Support & Consulting</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Call to Action Ribbon -->
+    <div class="cta-banner">
+      <div class="cta-text">
+        Ready to <span>Grow & Protect</span> Your Brand?
+      </div>
+      <div class="cta-tag">Book A Consultation Today</div>
+    </div>
+
+    <!-- Footer Contacts -->
+    <footer class="flyer-footer">
+      <div class="contact-list">
+        <div class="contact-item">
+          <span class="ci-icon">📞</span>
+          <div>
+            <strong>Call / WhatsApp:</strong><br/>
+            +233 242 760 809
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">✉️</span>
+          <div>
+            <strong>Email:</strong><br/>
+            spottedpointmedia@gmail.com
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">📍</span>
+          <div>
+            <strong>Office Location:</strong><br/>
+            Teiman-Abokobi, Accra, Ghana
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">🌐</span>
+          <div>
+            <strong>Socials:</strong><br/>
+            @spottedpointmedia
+          </div>
+        </div>
+      </div>
+
+      <!-- QR Code Placeholder -->
+      <div class="qr-block">
+        <div class="qr-box">
+          <svg viewBox="0 0 24 24" width="60" height="60" fill="#060d1f">
+            <path d="M2 2h8v8H2zm2 2v4h4V4zm10-2h8v8h-8zm2 2v4h4V4zM2 14h8v8H2zm2 2v4h4v-4zm14-2h4v2h-4zm0 4h2v4h-2zm-4-4h2v2h-2zm0 4h2v2h-2zm2-2h2v2h-2zm2 2h2v2h-2zm-4 2h2v2h-2zM5 5h2v2H5zm12 0h2v2h-2zM5 17h2v2H5z"/>
+          </svg>
+        </div>
+        <span class="qr-caption">Scan To Connect</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Advertising Kit & Social Media Captions -->
+  <div class="social-kit">
+    <h3>📢 Ready-to-Post Marketing Captions</h3>
+    <div class="caption-box" id="captionText">
+      🚀 <strong>Take Your Business To The Next Level with Spotted Point Media!</strong><br/><br/>
+      Are you looking to expand your reach, build cutting-edge software, or safeguard your enterprise? We make the invisible VISIBLE with 360° technology and creative solutions:<br/><br/>
+      ✅ Custom Web & Mobile App Development<br/>
+      ✅ Professional POS Setup & 24/7 CCTV Surveillance Cameras<br/>
+      ✅ High-Impact Brand Identity, Logos & Graphic Design<br/>
+      ✅ Result-Driven Digital Marketing & SEO<br/>
+      ✅ Corporate Video Production & Motion Graphics<br/>
+      ✅ Enterprise Networking & IT Maintenance<br/><br/>
+      📍 Location: Teiman-Abokobi, Accra, Ghana<br/>
+      📞 Phone / WhatsApp: +233 242 760 809<br/>
+      ✉️ Email: spottedpointmedia@gmail.com<br/>
+      🌐 Follow us: @spottedpointmedia<br/><br/>
+      👉 DM us today or tap the link in our bio for a free consultation! #SpottedPointMedia #WebDevelopment #CCTVGhana #DigitalMarketingGhana #GraphicDesignAccra #Branding #TechInGhana
+      <button class="copy-btn" onclick="copyCaption()">Copy Caption</button>
+    </div>
+  </div>
+
+  <script>
+    function copyCaption() {
+      const text = document.getElementById('captionText').innerText.replace('Copy Caption', '').trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Marketing caption copied to clipboard!');
+      });
+    }
+  </script>
+</body>
+</html>

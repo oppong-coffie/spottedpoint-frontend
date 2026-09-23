@@ -89,11 +89,11 @@ export default function BlogPage() {
                   {/* Content */}
                   <div style={{ padding: '22px 22px 26px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
-                      {post.tag && (
+                      {/* {post.tag && (
                         <span style={{ background: BRAND.orange, borderRadius: 5, padding: '4px 12px', fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: '.7rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '.08em' }}>
                           {post.tag}
                         </span>
-                      )}
+                      )} */}
                       <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: '.8rem', color: BRAND.gray, marginLeft: 'auto' }}>
                         <span>{new Date(post.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                         {post.readTime && <span style={{ color: BRAND.orange }}>· {post.readTime}</span>}

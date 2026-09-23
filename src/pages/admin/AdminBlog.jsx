@@ -4,7 +4,7 @@ import { BRAND } from '../../utils/constants';
 import api from '../../api/axios';
 import toast from 'react-hot-toast';
 
-const EMPTY = { title: '', excerpt: '', content: '', tag: '', author: 'Spotted Point Media', readTime: '', published: false };
+const EMPTY = { title: '', excerpt: '', content: '', tag: 'branding', author: 'Spotted Point Media', readTime: '5 min', published: true };
 
 export default function AdminBlog() {
   const [posts, setPosts]     = useState([]);
@@ -85,11 +85,11 @@ export default function AdminBlog() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
             <div>
               <input style={iS} placeholder="Post Title *" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
-              <div style={{ display: 'flex', gap: 12 }}>
+              {/* <div style={{ display: 'flex', gap: 12 }}>
                 <input style={{ ...iS, flex: 1 }} placeholder="Tag (e.g. Branding)" value={form.tag} onChange={e => setForm({ ...form, tag: e.target.value })} />
                 <input style={{ ...iS, flex: 1 }} placeholder="Read time (e.g. 5 min)" value={form.readTime} onChange={e => setForm({ ...form, readTime: e.target.value })} />
-              </div>
-              <input style={iS} placeholder="Author" value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} />
+              </div> */}
+              {/* <input style={iS} placeholder="Author" value={form.author} onChange={e => setForm({ ...form, author: e.target.value })} /> */}
               <textarea style={{ ...iS, minHeight: 90, resize: 'vertical' }} placeholder="Excerpt / Short description..." value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} />
               <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: "'Montserrat',sans-serif", fontWeight: 700, color: BRAND.blue, fontSize: '.88rem', cursor: 'pointer', marginBottom: 14 }}>
                 <input type="checkbox" checked={form.published} onChange={e => setForm({ ...form, published: e.target.checked })} />
